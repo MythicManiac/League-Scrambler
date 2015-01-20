@@ -1,0 +1,141 @@
+120161458
+    DATA\Characters\Anivia\Anivia.inibin                                              anivia_blackice_TX_RM.dds
+    DATA\Characters\AniviaEgg\AniviaEgg.inibin                                        AniviaEgg_BlackIce_TX_RM.dds
+    DATA\Characters\AniviaIceblock\AniviaIceBlock.inibin                              AniviaIceBlock_BlackIce_TX_RM.dds
+    DATA\Characters\Orianna\Orianna.inibin                                            orianna_skin05_TX_RM.dds
+    DATA\Characters\OriannaBall\OriannaBall.inibin                                    orianna_skin05_TX_RM.dds
+    DATA\Characters\OriannaNoBall\OriannaNoBall.inibin                                orianna_skin05_TX_RM.dds
+3151073456
+    DATA\Characters\Anivia\Anivia.inibin                                              anivia_blackice_TX_GM.dds
+    DATA\Characters\AniviaEgg\AniviaEgg.inibin                                        AniviaEgg_BlackIce_TX_GM.dds
+    DATA\Characters\Orianna\Orianna.inibin                                            orianna_skin05_TX_GM.dds
+    DATA\Characters\OriannaBall\OriannaBall.inibin                                    orianna_skin05_TX_GM.dds
+    DATA\Characters\OriannaNoBall\OriannaNoBall.inibin                                orianna_skin05_TX_GM.dds
+1831801988
+    DATA\Characters\ARAMChaosNexus\ARAMChaosNexus.inibin                              Nexus_Diffuse_Cmask.dds
+    DATA\Characters\ARAMChaosTurretFront\ARAMChaosTurretFront.inibin                  RedLaneTower_diffuse_Cmask.dds
+    DATA\Characters\ARAMChaosTurretInhib\ARAMChaosTurretInhib.inibin                  RedGateTower_diffuse_Cmask.dds
+    DATA\Characters\ARAMChaosTurretNexus\ARAMChaosTurretNexus.inibin                  RedHqTower_diffuse_Cmask.dds
+    DATA\Characters\ARAMOrderNexus\ARAMOrderNexus.inibin                              Nexus_Diffuse_Cmask.dds
+    DATA\Characters\ARAMOrderTurretFront\ARAMOrderTurretFront.inibin                  BlueLaneTower_diffuse_Cmask.dds
+    DATA\Characters\ARAMOrderTurretInhib\ARAMOrderTurretInhib.inibin                  BlueGateTower_diffuse_Cmask.dds
+    DATA\Characters\ARAMOrderTurretNexus\ARAMOrderTurretNexus.inibin                  BlueHqTower_diffuse_Cmask.dds
+    DATA\Characters\ChaosTurretGiant\ChaosTurretGiant.inibin                          RedGateTower_diffuse_Cmask.dds
+    DATA\Characters\ChaosTurretNormal\ChaosTurretNormal.inibin                        RedHqTower_diffuse_Cmask.dds
+    DATA\Characters\ChaosTurretTutorial\ChaosTurretTutorial.inibin                    RedLaneTower_diffuse_Cmask.dds
+    DATA\Characters\ChaosTurretWorm\ChaosTurretWorm.inibin                            RedLaneTower_diffuse_Cmask.dds
+    DATA\Characters\ChaosTurretWorm2\ChaosTurretWorm2.inibin                          RedLaneTower_diffuse_Cmask.dds
+    DATA\Characters\Evelynn\Evelynn.inibin                                            RG_Evelynn_Clr_Cmask.dds
+    DATA\Characters\Golem\Golem.inibin                                                Golem_Diffuse_Cmask.dds
+    DATA\Characters\GolemODIN\GolemOdin.inibin                                        GolemOdin_Diffuse_Cmask.dds
+    DATA\Characters\Jax\Jax.inibin                                                    Armsmaster_Diffuse_Cmask.dds
+    DATA\Characters\Nunu\Nunu.inibin                                                  Yeti_CMask.dds
+    DATA\Characters\OrderTurretAngel\OrderTurretAngel.inibin                          BlueHqTower_diffuse_Cmask.dds
+    DATA\Characters\OrderTurretDragon\OrderTurretDragon.inibin                        BlueGateTower_diffuse_Cmask.dds
+    DATA\Characters\OrderTurretNormal\OrderTurretNormal.inibin                        BlueLaneTower_diffuse_Cmask.dds
+    DATA\Characters\OrderTurretNormal2\OrderTurretNormal2.inibin                      BlueLaneTower_diffuse_Cmask.dds
+    DATA\Characters\OrderTurretTutorial\OrderTurretTutorial.inibin                    BlueLaneTower_diffuse_Cmask.dds
+    DATA\Characters\Singed\Singed.inibin                                              ChemicalMan_Diffuse_Cmask.dds
+    DATA\Characters\SmallGolem\SmallGolem.inibin                                      Golem_Diffuse_Cmask.dds
+    DATA\Characters\TT_ChaosTurret1\TT_ChaosTurret1.inibin                            RedLaneTower_diffuse_Cmask.dds
+    DATA\Characters\TT_ChaosTurret2\TT_ChaosTurret2.inibin                            RedGateTower_diffuse_Cmask.dds
+    DATA\Characters\TT_ChaosTurret3\TT_ChaosTurret3.inibin                            RedHqTower_diffuse_Cmask.dds
+    DATA\Characters\TT_OrderTurret1\TT_OrderTurret1.inibin                            BlueLaneTower_diffuse_Cmask.dds
+    DATA\Characters\TT_OrderTurret2\TT_OrderTurret2.inibin                            BlueGateTower_diffuse_Cmask.dds
+    DATA\Characters\TT_OrderTurret3\TT_OrderTurret3.inibin                            BlueHqTower_diffuse_Cmask.dds
+39255091
+    DATA\Characters\AzirTowerClicker\AzirTowerClicker.inibin                          DirectionalCircle.dds
+    DATA\Characters\KalistaAltar\KalistaAltar.inibin                                  DirectionalCircle.dds
+    DATA\Characters\RekSaiTunnel\RekSaiTunnel.inibin                                  DirectionalCircle.dds
+    DATA\Characters\ThreshLantern\ThreshLantern.inibin                                DirectionalCircle.dds
+2642185782
+    DATA\Characters\AzirTowerClicker\AzirTowerClicker.inibin                          LocalLineMissileTarget.dds
+    DATA\Characters\KalistaAltar\KalistaAltar.inibin                                  LocalLineMissileTarget.dds
+    DATA\Characters\RekSaiTunnel\RekSaiTunnel.inibin                                  LocalLineMissileTarget.dds
+    DATA\Characters\ThreshLantern\ThreshLantern.inibin                                LocalLineMissileTarget.dds
+3877008438
+    DATA\Characters\AzirTowerClicker\AzirTowerClicker.inibin                          LocalLineMissileBase.dds
+    DATA\Characters\KalistaAltar\KalistaAltar.inibin                                  LocalLineMissileBase.dds
+    DATA\Characters\RekSaiTunnel\RekSaiTunnel.inibin                                  LocalLineMissileBase.dds
+    DATA\Characters\ThreshLantern\ThreshLantern.inibin                                LocalLineMissileBase.dds
+777106415
+    DATA\Characters\Blitzcrank\Blitzcrank.inibin                                      blitzcrank_i_TX_GM.dds
+    DATA\Characters\Malphite\Malphite.inibin                                          malphite_Skin06_TX_GM.dds
+1230073201
+    DATA\Characters\Blitzcrank\Blitzcrank.inibin                                      blitzcrank_custom_TX_GM.dds
+    DATA\Characters\Evelynn\Evelynn.inibin                                            evelynn_skin04_TX_GM.dds
+    DATA\Characters\Hecarim\Hecarim.inibin                                            hecarim_arcade_TX_GM.dds
+    DATA\Characters\Lulu\Lulu.inibin                                                  Lulu_Skin04_TX_GM.dds
+1475424563
+    DATA\Characters\Blitzcrank\Blitzcrank.inibin                                      blitzcrank_i_TX_RM.dds
+    DATA\Characters\Malphite\Malphite.inibin                                          malphite_skin06_TX_RM.dds
+3059865649
+    DATA\Characters\Blitzcrank\Blitzcrank.inibin                                      blitzcrank_custom_TX_RM.dds
+    DATA\Characters\Evelynn\Evelynn.inibin                                            evelynn_skin04_TX_RM.dds
+    DATA\Characters\Hecarim\Hecarim.inibin                                            hecarim_arcade_TX_RM.dds
+    DATA\Characters\Lulu\Lulu.inibin                                                  Lulu_Skin04_TX_RM.dds
+2698106670
+    DATA\Characters\DrMundo\DrMundo.inibin                                            drmundo_tpa_TX_GM.dds
+    DATA\Characters\Kayle\Kayle.inibin                                                Kayle_Skin07_TX_GM.dds
+2830687668
+    DATA\Characters\DrMundo\DrMundo.inibin                                            drmundo_tpa_TX_RM.dds
+    DATA\Characters\Kayle\Kayle.inibin                                                kayle_Skin07_TX_RM.dds
+1311871633
+    DATA\Characters\Ezreal\Ezreal.inibin                                              Ezreal_Pulsefire_Square.dds
+3502738494
+    DATA\Characters\HA_AP_HeroTower\HA_AP_HeroTower.inibin                            HA_Fracture_Faces.dds
+515824990
+    DATA\Characters\Hecarim\Hecarim.inibin                                            hecarim_arcade_tail_TX_CM.dds
+    DATA\Characters\Leona\Leona.inibin                                                leona_skin04_chair_TX_CM.dds
+    DATA\Characters\Lulu\Lulu.inibin                                                  Lulu_Fairy_Skin04_TX_CM.dds
+2747693998
+    DATA\Characters\Hecarim\Hecarim.inibin                                            hecarim_arcade_tail_TX_GM.dds
+5293921
+    DATA\Characters\Jax\Jax.inibin                                                    Armsmaster_Diffuse_Cmask.dds
+    DATA\Characters\Nunu\Nunu.inibin                                                  Yeti_CMask.dds
+    DATA\Characters\Singed\Singed.inibin                                              ChemicalMan_Diffuse_Cmask.dds
+324139629
+    DATA\Characters\Jax\Jax.inibin                                                    jax_skin08_TX_GM.dds
+3981631455
+    DATA\Characters\Jax\Jax.inibin                                                    jax_skin08_TX_CM.dds
+    DATA\Characters\TwistedFate\TwistedFate.inibin                                    TwistedFate_skin08_TX_CM.dds
+4185950773
+    DATA\Characters\Jax\Jax.inibin                                                    jax_skin08_TX_RM.dds
+3399594011
+    DATA\Characters\Kayle\Kayle.inibin                                                Kayle_skin07QuadCopter_TX_CM.dds
+968917008
+    DATA\Characters\Khazix\Khazix.inibin                                              Khazix_E_red.dds
+    DATA\Characters\Viktor\Viktor.inibin                                              Viktor_E2.dds
+1821304078
+    DATA\Characters\Khazix\Khazix.inibin                                              Khazix_Q_red.dds
+    DATA\Characters\Viktor\Viktor.inibin                                              Viktor_Q2.dds
+2690207121
+    DATA\Characters\Khazix\Khazix.inibin                                              Khazix_R_red.dds
+3542594191
+    DATA\Characters\Khazix\Khazix.inibin                                              Khazix_W_red.dds
+    DATA\Characters\Viktor\Viktor.inibin                                              Viktor_W2.dds
+3060448337
+    DATA\Characters\Leona\Leona.inibin                                                leona_base_TX_GM.dds
+    DATA\Characters\Orianna\Orianna.inibin                                            orianna_base_TX_GM.dds
+    DATA\Characters\OriannaBall\OriannaBall.inibin                                    orianna_base_TX_GM.dds
+    DATA\Characters\OriannaNoBall\OriannaNoBall.inibin                                orianna_base_TX_GM.dds
+3732685137
+    DATA\Characters\Leona\Leona.inibin                                                leona_base_TX_RM.dds
+    DATA\Characters\Orianna\Orianna.inibin                                            orianna_base_TX_RM.dds
+    DATA\Characters\OriannaBall\OriannaBall.inibin                                    orianna_base_TX_RM.dds
+    DATA\Characters\OriannaNoBall\OriannaNoBall.inibin                                orianna_base_TX_RM.dds
+1910557872
+    DATA\Characters\Malphite\Malphite.inibin                                          malphitefist_Skin06_TX_GM.dds
+3869993436
+    DATA\Characters\Malphite\Malphite.inibin                                          malphitefist_skin06_TX_CM.dds
+45425565
+    DATA\Characters\Malzahar\Malzahar.inibin                                          Poro_base_TX_CM.dds
+    DATA\Characters\Shyvana\Shyvana.inibin                                            Shyvana_Skin05_recall_TX_CM.dds
+2781271388
+    DATA\Characters\Malzahar\Malzahar.inibin                                          Malzahar_voidling_PET_poro_TX_CM.dds
+1334330210
+    DATA\Characters\Nunu\Nunu.inibin                                                  Yeti_CMask.dds
+349339439
+    DATA\Characters\Syndra\Syndra.inibin                                              syndra_skin02_TX_RM.dds
+1683039987
+    DATA\Characters\Syndra\Syndra.inibin                                              syndra_skin02_TX_GM.dds

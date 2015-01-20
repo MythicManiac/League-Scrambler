@@ -1,0 +1,37 @@
+INIBIN FILEFORMAT
+
+
+HEADER
+	8			Version
+	16			String List Length
+	16			Format - 16 individual booleans, one bit in size, unknown if all are used
+
+DICTIONARY - Amount of dictionaries determined by format flags. The dictionaries are in order from least significant bit to highest.
+	16			Item count
+	
+	KEYS
+	32			Key
+	
+	VALUES
+	?			Value
+
+STRING LIST
+	Null terminated ASCII strings
+
+	
+0x0001 = 0  = Int32
+0x0002 = 1  = Float
+0x0004 = 2  = Byte Float (Default bytes divided by 10)
+0x0008 = 3  = Shorts
+0x0010 = 4  = Bytes
+0x0020 = 5  = Booleans
+0x0040 = 6  =
+0x0080 = 7  =
+0x0100 = 8  =
+0x0200 = 9  =
+0x0400 = 10 = Int32 Colors (No idea what are these used for)
+0x0800 = 11 =
+0x1000 = 12 = String Dictionary
+0x2000 = 13 =
+0x4000 = 14 =
+0x8000 = 15 =

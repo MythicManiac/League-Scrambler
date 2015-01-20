@@ -1,0 +1,8 @@
+70667385 - gameChracterTipsForSelf
+	game_character_tips_Amumu
+
+70667386 - gameCharacterTipsForOpposing
+	game_character_opposing_tips_Amumu
+
+82690155 - gameCharacterDisplayName
+	game_character_displayname_Amumu

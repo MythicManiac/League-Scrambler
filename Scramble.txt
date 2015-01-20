@@ -1,0 +1,34 @@
+Scramble these:
+	Champions
+	Loading screen icons
+	Skill icons
+	Item images
+	Champion images
+	
+Skin consists of
+	Animations
+		.anm files
+	Skeleton
+		.skl file
+	Skin
+		.skn file
+	Texture
+		.dds file
+	Blend
+		.blnd file
+		Links animations with skin - No need to copy animations, just copy this file
+	
+	Inibin
+		.inibin file
+		Links all skins/animations to the champion - No need to copy anything else, just this and .blnd file
+
+
+Skin absolutes
+	Champions can replace only one other champion, not all over the place
+	Champion should be replaced by only one other champion, not by many
+	Skins must have the following files:
+		One .skn file
+		One .skl file
+		One .dds file
+		One .blnd file - Replaceable skins determined by this
+	Copy base over all which don't have a blend file
