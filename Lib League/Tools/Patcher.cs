@@ -12,7 +12,7 @@ namespace League.Tools
 {
     public class Patcher
     {
-        public static readonly string BackupPath = @"C:\LoLBackup\";
+        public string BackupPath { get; private set; }
 
         public List<Archive> Archives { get; private set; }
         public string ArchiveLocation { get; private set; }
@@ -21,8 +21,9 @@ namespace League.Tools
         public ReleaseManifest Manifest { get; private set; }
         public List<string> FileRequestTable { get; private set; }
 
-        public Patcher(string archivePath, string manifestPath)
+        public Patcher(string archivePath, string manifestPath, string backupPath)
         {
+            BackupPath = backupPath;
             ArchiveLocation = archivePath;
             FileChanges = new Dictionary<string, byte[]>();
             FileRequestTable = new List<string>();

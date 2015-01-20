@@ -88,7 +88,7 @@ namespace LeagueScrambler
 
         public void Patch()
         {
-            Patcher patcher = new Patcher(LeagueLocations.GetArchivePath(LeaguePath), LeagueLocations.GetManifestPath(LeaguePath));
+            Patcher patcher = new Patcher(LeagueLocations.GetArchivePath(LeaguePath), LeagueLocations.GetManifestPath(LeaguePath), LeagueLocations.GetBackupPath(LeaguePath));
             patcher.LoadArchives();
             int i = 1;
             foreach(KeyValuePair<string, string> kvp in _skinChangeTable)

@@ -63,7 +63,7 @@ namespace LeagueScrambler
 
         public void Backup()
         {
-            Patcher patcher = new Patcher(LeagueLocations.GetArchivePath(_leaguePath), LeagueLocations.GetManifestPath(_leaguePath));
+            Patcher patcher = new Patcher(LeagueLocations.GetArchivePath(_leaguePath), LeagueLocations.GetManifestPath(_leaguePath), LeagueLocations.GetBackupPath(_leaguePath));
             patcher.Backup(true);
             Console.Title = "League Scrambler";
         }
@@ -90,7 +90,7 @@ namespace LeagueScrambler
 
         public void RestoreBackup()
         {
-            Patcher patcher = new Patcher(LeagueLocations.GetArchivePath(_leaguePath), LeagueLocations.GetManifestPath(_leaguePath));
+            Patcher patcher = new Patcher(LeagueLocations.GetArchivePath(_leaguePath), LeagueLocations.GetManifestPath(_leaguePath), LeagueLocations.GetBackupPath(_leaguePath));
             patcher.Restore(false);
             Console.Title = "League Scrambler";
         }

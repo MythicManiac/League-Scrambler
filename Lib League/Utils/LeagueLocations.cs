@@ -43,5 +43,10 @@ namespace League.Utils
             }
             return directories[currentResult] + @"\releasemanifest";
         }
+
+        public static string GetBackupPath(string leaguePath)
+        {
+            return leaguePath + @"Mythic\";
+        }
     }
 }
