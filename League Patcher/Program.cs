@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LeagueCommon.Utils;
-using LeagueCommon.Tools;
-using LeagueCommon.Files.Manifest;
+using League.Utils;
+using League.Tools;
+using League.Files.Manifest;
 
 namespace League_Patcher
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using LeagueCommon.Utils;
+using League.Utils;
 
 namespace Inibin_File_Manager
 {
@@ -44,8 +44,8 @@ namespace Inibin_File_Manager
             {
                 if (Path.GetExtension(files[i]) == extension)
                 {
-                    LeagueCommon.Files.Inibin inibin = new LeagueCommon.Files.Inibin(files[i], @"C:\Users\Mythic\Desktop\LolFiles\");
-                    LeagueCommon.Character character = new LeagueCommon.Character(inibin);
+                    League.Files.Inibin inibin = new League.Files.Inibin(files[i], @"C:\Users\Mythic\Desktop\LolFiles\");
+                    League.Character character = new League.Character(inibin);
                     if(!character.Type.Contains("Structure"))
                         inibinFiles.Add(files[i]);
                     if (character.Type.Contains("Champion") ||

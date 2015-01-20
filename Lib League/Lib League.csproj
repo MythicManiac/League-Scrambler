@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{20AE3089-CE7A-46E4-BD1C-9684BF632966}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{356F8A8B-CF38-4DAA-8891-2BCDCB0DAF46}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Riot_Archive_File_Extractor</RootNamespace>
-    <AssemblyName>Riot Archive File Extractor</AssemblyName>
+    <RootNamespace>League</RootNamespace>
+    <AssemblyName>libleague</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ionic.Zlib">
+      <HintPath>..\Libs\Ionic.Zlib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,18 +42,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extractor.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Character.cs" />
+    <Compile Include="Files\Archive.cs" />
+    <Compile Include="Files\Inibin.cs" />
+    <Compile Include="Files\Manifest\Classes.cs" />
+    <Compile Include="Files\Manifest\ReleaseManifest.cs" />
+    <Compile Include="Files\Manifest\ReleaseManifestReader.cs" />
+    <Compile Include="Files\Manifest\ReleaseManifestWriter.cs" />
+    <Compile Include="Files\RiotFile.cs" />
+    <Compile Include="Hashes\CharacterHashes.cs" />
+    <Compile Include="Hashes\SkinHashes.cs" />
+    <Compile Include="Skin.cs" />
+    <Compile Include="SkinGroup.cs" />
+    <Compile Include="SkinGroupReader.cs" />
+    <Compile Include="SkinGroupWriter.cs" />
+    <Compile Include="Tools\Patcher.cs" />
+    <Compile Include="Utils\LeagueLocations.cs" />
+    <Compile Include="Utils\Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\ObjectList.cs" />
+    <Compile Include="Utils\Table.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Lib League\Lib League.csproj">
-      <Project>{356f8a8b-cf38-4daa-8891-2bcdcb0daf46}</Project>
-      <Name>Lib League</Name>
-    </ProjectReference>
+    <Folder Include="Files\Archive\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

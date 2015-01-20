@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using LeagueCommon.Files;
+using League.Files;
 
 namespace Inibin_File_Manager
 {

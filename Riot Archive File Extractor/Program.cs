@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LeagueCommon.Utils;
+using League.Utils;
 
 namespace Riot_Archive_File_Extractor
 {

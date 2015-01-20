@@ -7,13 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skin Finder", "Skin Finder\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Riot Archive File Manager", "Riot Archive File Extractor\Riot Archive File Manager.csproj", "{20AE3089-CE7A-46E4-BD1C-9684BF632966}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "League Common", "Common\League Common.csproj", "{356F8A8B-CF38-4DAA-8891-2BCDCB0DAF46}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lib League", "Lib League\Lib League.csproj", "{356F8A8B-CF38-4DAA-8891-2BCDCB0DAF46}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inibin File Manager", "Inibin File Manager\Inibin File Manager.csproj", "{36C4C006-AB65-4D26-907C-84D4C9282C4D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "League Patcher", "League Patcher\League Patcher.csproj", "{3C214C4A-6DF8-4709-8F77-B52F8D49AFB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "League Scrambler", "Model Scrambler\League Scrambler.csproj", "{0090024D-CB8E-4362-AC1E-562B126FC358}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "League Scrambler", "League Scrambler\League Scrambler.csproj", "{0090024D-CB8E-4362-AC1E-562B126FC358}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

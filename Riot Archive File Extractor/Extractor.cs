@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Threading;
-using LeagueCommon.Files;
+using League.Files;
 
 namespace Riot_Archive_File_Extractor
 {

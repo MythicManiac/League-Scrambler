@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using LeagueCommon;
-using LeagueCommon.Utils;
-using LeagueCommon.Files.Manifest;
+using League;
+using League.Utils;
+using League.Files.Manifest;
 
 namespace Skin_Finder
 {
