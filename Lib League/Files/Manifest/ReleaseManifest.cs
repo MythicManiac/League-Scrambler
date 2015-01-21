@@ -19,16 +19,6 @@ namespace League.Files.Manifest
 
         public ReleaseManifest() { }
 
-        public void Dump()
-        {
-            Table table = new Table(3);
-            for(int i = 0; i < Files.Length; i++)
-            {
-                table.AddRow(Files[i].FullName, Files[i].Name, Files[i].ArchiveId);
-            }
-            table.Dump(8);
-        }
-
         public List<string> GetFilePaths(string filename, string foldername)
         {
             List<string> result = new List<string>();
