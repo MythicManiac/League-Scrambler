@@ -24,16 +24,17 @@ namespace TestProject
 
         public static void Run()
         {
-            string archivePath = @"C:\Games\League of Legends\RADS\projects\lol_game_client\filearchives\0.0.1.11";
+            string archivePath = @"C:\Games\League of Legends\RADS\projects\lol_game_client\filearchives\0.0.1.11\Archive_2.raf";
 
             ArchiveReader reader = new ArchiveReader();
             Archive archive = reader.ReadArchive(archivePath);
 
-            Table table = new Table(2);
+            Table table = new Table(1);
             foreach(KeyValuePair<string, ArchiveFileInfo> kvp in archive.FileList)
             {
-                table.AddRow(kvp.Key, kvp.Value.Path);
+                table.AddRow(kvp.Key);
             }
+            table.Dump();
         }
     }
 }

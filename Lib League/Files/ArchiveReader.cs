@@ -104,11 +104,11 @@ namespace League.Files
             for(uint i = 0; i < _fileList.Length; i++)
             {
                 var result = new ArchiveFileInfo();
-                result.Path = ReadString(_pathList[_fileList[i].PathIndex].PathOffset, _pathList[_fileList[i].PathIndex].PathLength - 1);
+                result.Path = ReadString(_pathListOffset + _pathList[_fileList[i].PathIndex].PathOffset, _pathList[_fileList[i].PathIndex].PathLength - 1);
 
                 if(_fileList[i].PathHash != HashFunctions.LeagueHash(result.Path))
                 {
-                    Console.WriteLine("Invalid hash for a file, skipping....");
+                    Console.WriteLine("Invalid hash for a path: {0}", result.Path);
                     continue;
                 }
 

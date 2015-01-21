@@ -48,7 +48,7 @@ namespace League.Utils
             _rows.Add(new TableRow(new string[1] { row }, false));
         }
 
-        public void DumpTable(int minPadding = 4)
+        public void Dump(int minPadding = 4)
         {
             for (int i = 0; i < _rows.Count; i++)
             {

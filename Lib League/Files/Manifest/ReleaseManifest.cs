@@ -26,7 +26,7 @@ namespace League.Files.Manifest
             {
                 table.AddRow(Files[i].FullName, Files[i].Name, Files[i].ArchiveId);
             }
-            table.DumpTable(8);
+            table.Dump(8);
         }
 
         public List<string> GetFilePaths(string filename, string foldername)
