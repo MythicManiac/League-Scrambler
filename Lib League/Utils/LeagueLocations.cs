@@ -4,11 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using Microsoft.Win32;
 
 namespace League.Utils
 {
     public static class LeagueLocations
     {
+        public static string GetLeaguePath()
+        {
+            RegistryKey regKey = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Uninstall");
+            return FindInstallataionLocation(regKey, "League of Legends");
+        }
+
         public static string GetArchivePath(string leaguePath)
         {
             return string.Format(leaguePath + @"RADS\projects\lol_game_client\filearchives\");
@@ -47,6 +54,24 @@ namespace League.Utils
         public static string GetBackupPath(string leaguePath)
         {
             return leaguePath + @"Mythic\";
+        }
+
+        private static string FindInstallataionLocation(RegistryKey parentKey, string name)
+        {
+            string[] nameList = parentKey.GetSubKeyNames();
+            for (int i = 0; i < nameList.Length; i++)
+            {
+                RegistryKey key = parentKey.OpenSubKey(nameList[i]);
+                try
+                {
+                    if (key.GetValue("DisplayName").ToString() == name)
+                    {
+                        return key.GetValue("InstallLocation").ToString();
+                    }
+                }
+                catch { }
+            }
+            return "";
         }
     }
 }

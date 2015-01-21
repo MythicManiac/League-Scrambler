@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "League Patcher", "League Pa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "League Scrambler", "League Scrambler\League Scrambler.csproj", "{0090024D-CB8E-4362-AC1E-562B126FC358}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject", "TestProject\TestProject.csproj", "{32EF6811-5A0E-49CF-9B18-15D7C13447C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_Nightly|Any CPU = Debug_Nightly|Any CPU
@@ -118,6 +120,21 @@ Global
 		{0090024D-CB8E-4362-AC1E-562B126FC358}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0090024D-CB8E-4362-AC1E-562B126FC358}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{0090024D-CB8E-4362-AC1E-562B126FC358}.Release|x86.ActiveCfg = Release|Any CPU
+		{32EF6811-5A0E-49CF-9B18-15D7C13447C9}.Debug_Nightly|Any CPU.ActiveCfg = Debug|Any CPU
+		{32EF6811-5A0E-49CF-9B18-15D7C13447C9}.Debug_Nightly|Any CPU.Build.0 = Debug|Any CPU
+		{32EF6811-5A0E-49CF-9B18-15D7C13447C9}.Debug_Nightly|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{32EF6811-5A0E-49CF-9B18-15D7C13447C9}.Debug_Nightly|Mixed Platforms.Build.0 = Debug|Any CPU
+		{32EF6811-5A0E-49CF-9B18-15D7C13447C9}.Debug_Nightly|x86.ActiveCfg = Debug|Any CPU
+		{32EF6811-5A0E-49CF-9B18-15D7C13447C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32EF6811-5A0E-49CF-9B18-15D7C13447C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32EF6811-5A0E-49CF-9B18-15D7C13447C9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{32EF6811-5A0E-49CF-9B18-15D7C13447C9}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{32EF6811-5A0E-49CF-9B18-15D7C13447C9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{32EF6811-5A0E-49CF-9B18-15D7C13447C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32EF6811-5A0E-49CF-9B18-15D7C13447C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32EF6811-5A0E-49CF-9B18-15D7C13447C9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{32EF6811-5A0E-49CF-9B18-15D7C13447C9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{32EF6811-5A0E-49CF-9B18-15D7C13447C9}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,19 +8,23 @@ namespace League.Utils
 {
     public class Table
     {
-        public List<TableRow> Rows { get; private set; }
         public int Columns { get; private set; }
+
+        private int[] _lengths;
+        private List<TableRow> _rows;
 
         public Table(int columns)
         {
             Columns = columns;
-            Rows = new List<TableRow>();
+            _rows = new List<TableRow>();
+            _lengths = new int[columns];
         }
 
         public Table(int columns, int rows)
         {
             Columns = columns;
-            Rows = new List<TableRow>(rows);
+            _rows = new List<TableRow>(rows);
+            _lengths = new int[columns];
         }
 
         public void AddRow(params object[] items)
@@ -32,46 +36,36 @@ namespace League.Utils
             for (int i = 0; i < items.Length; i++)
             {
                 row[i] = Convert.ToString(items[i]);
+                if (row[i].Length > _lengths[i])
+                    _lengths[i] = row[i].Length;
             }
-            Rows.Add(new TableRow(row));
+
+            _rows.Add(new TableRow(row));
         }
 
         public void AddColumnlessRow(string row)
         {
-            Rows.Add(new TableRow(new string[1] { row }, false));
+            _rows.Add(new TableRow(new string[1] { row }, false));
         }
 
         public void DumpTable(int minPadding = 4)
         {
-            int[] lenghts = new int[Columns];
-            
-            for(int i = 0; i < Rows.Count; i++)
-            {
-                for(int j = 0; j < Rows[i].Length; j++)
-                {
-                    if(lenghts[j] < Rows[i][j].Length && Rows[i].Column)
-                    {
-                        lenghts[j] = Rows[i][j].Length;
-                    }
-                }
-            }
-
-            for(int i = 0; i < Rows.Count; i++)
+            for (int i = 0; i < _rows.Count; i++)
             {
                 string line = "";
 
-                if (Rows[i].Column)
+                if (_rows[i].Column)
                 {
-                    for (int j = 0; j < Rows[i].Length; j++)
+                    for (int j = 0; j < _rows[i].Length; j++)
                     {
                         if (j == Columns - 1)
-                            line += Rows[i][j];
+                            line += _rows[i][j];
                         else
-                            line += string.Format("{0}{1}", Rows[i][j], new string(' ', lenghts[j] + minPadding - Rows[i][j].Length));
+                            line += string.Format("{0}{1}", _rows[i][j], new string(' ', _lengths[j] + minPadding - _rows[i][j].Length));
                     }
                 }
                 else
-                    line = Rows[i][0];
+                    line = _rows[i][0];
 
                 Console.WriteLine(line);
             }

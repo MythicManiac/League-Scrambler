@@ -1,0 +1,57 @@
+ArchiveFileManager
+	Description
+		Contains functions related to reading and writing League of Legends files. 
+	
+	Uses
+		ArchiveState
+		ArchiveStateReader
+		ArchiveStateWriter
+	
+	Public functions
+		byte[]	ReadFile(string filepath, bool uncompress)								// Finds the archive of the specified filepath and proceeds to read and return it's data. Throws an error if the specified file isn't found.
+		byte[]	ReadFile(string filepath, bool uncompress, bool surpressErrors)			// Finds the archive of the specified filepath and proceeds to read and return it's data. Returns null if the specified file isn't found.
+		void	WriteFile(string filepath, bool compress, int archiveId, byte[] data)	// Writes the provided data to the specified archive with the specified path.
+		bool	WriteFile(string filepath, bool compress, byte[] data)					// Attempts to find the archive of the supplied filepath and write the supplied data to it. Returns false if filepath was not found.
+		int		GetArchiveId(string filepath)											// Attempts to find the archive id of the given filepath. Returns -1 if path wasn't found.
+		bool	Revert(int archiveId)													// Attempts to revert the specified archive to it's original state.
+		void	Revert()																// Attempts to revert all archives to their original state.
+
+Archive
+	Description
+		Contains metadata of the archive file.
+	
+	Public properties
+		static readonly uint Magic														// The magic value which is always included in the archive file's header.
+		string FilePath																	// Path to the archive's metadata file.
+		string DataFilePath																// Path to the archive's data file.
+		int ArchiveId																	// The archive's id.
+		int Version																		// The archive's version.
+		Dictionary<string, FileInfo> FileList											// A dictionary containing all the archive's filepaths pointing to the FileInfo object of given path.
+
+ArchiveReader
+	Description
+		Contains functions related to reading Riot Archive Files.
+	
+	Public functions
+		Archive ReadArchive(string filepath)											// Attempts to deserialize supplied file as a Riot Archive File.
+		Archive ReadArchive(byte[] data)												// Attempts to deserialize supplied file as a Riot Archive File.
+		byte[]	ReadData(Archive archive, long offset, long length)						// Reads a block of data from the provided archive file.
+		byte[]	ReadData(string filepath, long offset, long length)						// Reads a block of data from the specified file.
+		byte[]	ReadData(byte[] data, long offset, long length)							// Reads a block of data from the provided data.
+
+ArchiveWriter
+	Description
+		Contains functions related to writing Riot Archive Files.
+	
+	Public functions
+		void	WriteArchive(string filepath, Archive archive)							// Attempts to serialize and write the provided archive's metadata to the specified filepath.
+		byte[]	WriteArchive(Archive archive)											// Serializes the provided archive and returns the bytes of it as an array.
+		void	WriteData(Archive archive, byte[] data, long offset)					// Writes provided data to the specified offset in the provided archive's data file.
+		long	WriteData(Archive archive, byte[] data)									// Appends provided data to the end of specified archive's data file and returns the offset it was written to.
+
+ArchiveState
+	Description
+		Contains functions and data related to Riot ARchive Files states.
+	
+	
+	

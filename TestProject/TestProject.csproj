@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{356F8A8B-CF38-4DAA-8891-2BCDCB0DAF46}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{32EF6811-5A0E-49CF-9B18-15D7C13447C9}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>League</RootNamespace>
-    <AssemblyName>libleague</AssemblyName>
+    <RootNamespace>TestProject</RootNamespace>
+    <AssemblyName>TestProject</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -30,9 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Ionic.Zlib">
-      <HintPath>..\Libs\Ionic.Zlib.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -42,33 +41,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Character.cs" />
-    <Compile Include="Files\Archive.cs" />
-    <Compile Include="Files\ArchiveReader.cs" />
-    <Compile Include="Files\OldArchive.cs" />
-    <Compile Include="Files\Inibin.cs" />
-    <Compile Include="Files\Manifest\Classes.cs" />
-    <Compile Include="Files\Manifest\ReleaseManifest.cs" />
-    <Compile Include="Files\Manifest\ReleaseManifestReader.cs" />
-    <Compile Include="Files\Manifest\ReleaseManifestWriter.cs" />
-    <Compile Include="Files\PathListReader.cs" />
-    <Compile Include="Files\PathListWriter.cs" />
-    <Compile Include="Files\RiotFile.cs" />
-    <Compile Include="Hashes\CharacterHashes.cs" />
-    <Compile Include="Hashes\HashFunctions.cs" />
-    <Compile Include="Hashes\SkinHashes.cs" />
-    <Compile Include="Skin.cs" />
-    <Compile Include="SkinGroup.cs" />
-    <Compile Include="Files\SkinGroupReader.cs" />
-    <Compile Include="Files\SkinGroupWriter.cs" />
-    <Compile Include="Tools\Patcher.cs" />
-    <Compile Include="Utils\LeagueLocations.cs" />
-    <Compile Include="Utils\Log.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils\ObjectList.cs" />
-    <Compile Include="Utils\Table.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lib League\Lib League.csproj">
+      <Project>{356f8a8b-cf38-4daa-8891-2bcdcb0daf46}</Project>
+      <Name>Lib League</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

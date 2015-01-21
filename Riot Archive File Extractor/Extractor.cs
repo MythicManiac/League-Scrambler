@@ -11,7 +11,7 @@ namespace Riot_Archive_File_Extractor
 {
     public class Extractor
     {
-        public List<Archive> Archives { get; private set; }
+        public List<OldArchive> Archives { get; private set; }
         public string SourceDirectory { get; private set; }
         public string DestinationDirectory { get; private set; }
         public int ThreadCount { get; private set; }
@@ -29,7 +29,7 @@ namespace Riot_Archive_File_Extractor
 
         public void Extract()
         {
-            Archives = new List<Archive>();
+            Archives = new List<OldArchive>();
             ScanFiles(SourceDirectory);
             PrepareThreads();
 
@@ -56,7 +56,7 @@ namespace Riot_Archive_File_Extractor
             {
                 if(Path.GetExtension(files[i]) == ".raf" && File.Exists(files[i] + ".dat"))
                 {
-                    Archives.Add(new Archive(files[i]));
+                    Archives.Add(new OldArchive(files[i]));
                 }
             }
 

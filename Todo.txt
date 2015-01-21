@@ -2,6 +2,6 @@ Create an archive file manager
 Create a backup manager
 Embed .dll files to resources
 Rework skin file search
-Create a working search lass
+Create a working search class
 Make sure not found skins are skipped
 Write a proper file restore function

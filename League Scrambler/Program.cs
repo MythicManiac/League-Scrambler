@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms;
-using Microsoft.Win32;
 using League.Utils;
 
 namespace LeagueScrambler
@@ -20,8 +19,7 @@ namespace LeagueScrambler
             Console.Title = "League Scrambler";
 
             // Search for League of Legends installation path from registry
-            RegistryKey regKey = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Uninstall");
-            string leaguePath = FindInstallataionLocation(regKey, "League of Legends");
+            string leaguePath = LeagueLocations.GetLeaguePath();
 
             // Make sure the path is valid, if not, ask for user to select it manually. Keep repeating until user exits or selects a proper file.
             while (string.IsNullOrEmpty(leaguePath) || !Directory.Exists(leaguePath))
@@ -53,24 +51,6 @@ namespace LeagueScrambler
             Interface ui = new Interface(leaguePath);
             ui.Initialize();
             ui.Run();
-        }
-
-        static string FindInstallataionLocation(RegistryKey parentKey, string name)
-        {
-            string[] nameList = parentKey.GetSubKeyNames();
-            for (int i = 0; i < nameList.Length; i++)
-            {
-                RegistryKey key =  parentKey.OpenSubKey(nameList[i]);
-                try
-                {
-                    if (key.GetValue("DisplayName").ToString() == name)
-                    {
-                        return key.GetValue("InstallLocation").ToString();
-                    }
-                }
-                catch { }
-            }
-            return "";
         }
     }
 }

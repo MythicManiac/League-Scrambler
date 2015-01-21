@@ -14,7 +14,7 @@ namespace League.Tools
     {
         public string BackupPath { get; private set; }
 
-        public List<Archive> Archives { get; private set; }
+        public List<OldArchive> Archives { get; private set; }
         public string ArchiveLocation { get; private set; }
 
         public Dictionary<string, byte[]> FileChanges { get; private set; }
@@ -32,7 +32,7 @@ namespace League.Tools
 
         public void Backup(bool force = false, bool skipErros = true)
         {
-            Archives = new List<Archive>();
+            Archives = new List<OldArchive>();
             ScanFiles(ArchiveLocation, 1);
 
             Console.Title = string.Format("Backing up archives... {0} / {1} done", 0, Archives.Count);
@@ -71,7 +71,7 @@ namespace League.Tools
 
         public void Restore(bool removeBackup = true)
         {
-            Archives = new List<Archive>();
+            Archives = new List<OldArchive>();
             ScanFiles(BackupPath, 1, false);
 
             Console.Title = string.Format("Restoring archives... {0} / {1} done", 0, Archives.Count);
@@ -224,7 +224,7 @@ namespace League.Tools
         public void LoadArchives()
         {
             Console.Title = string.Format("Searching for archives...");
-            Archives = new List<Archive>();
+            Archives = new List<OldArchive>();
             ScanFiles(ArchiveLocation, 1);
 
             for(int i = 0; i < Archives.Count; i++)
@@ -241,7 +241,7 @@ namespace League.Tools
             {
                 if (Path.GetExtension(files[i]) == ".raf" && (File.Exists(files[i] + ".dat") || !reguireData))
                 {
-                    Archives.Add(new Archive(files[i]));
+                    Archives.Add(new OldArchive(files[i]));
                     Console.Title = string.Format("Searching for archives... {0} found", Archives.Count);
                 }
             }
