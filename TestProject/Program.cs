@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.IO;
 using League.Utils;
 using League.Files;
+using Ionic.Zlib;
 
 namespace TestProject
 {
@@ -25,16 +27,21 @@ namespace TestProject
         public static void Run()
         {
             string archivePath = @"C:\Games\League of Legends\RADS\projects\lol_game_client\filearchives\0.0.1.11\Archive_2.raf";
+            string archivePath2 = @"TestArchive.raf";
 
             ArchiveReader reader = new ArchiveReader();
-            Archive archive = reader.ReadArchive(archivePath);
+            ArchiveWriter writer = new ArchiveWriter();
+            Archive original = reader.ReadArchive(archivePath);
+            writer.WriteArchive(original, archivePath2);
+            Archive rewritten = reader.ReadArchive(archivePath2);
 
-            Table table = new Table(1);
-            foreach(KeyValuePair<string, ArchiveFileInfo> kvp in archive.FileList)
+            foreach (var kvp in rewritten.Files)
             {
-                table.AddRow(kvp.Key);
+                if (rewritten.Files[kvp.Key].DataLength != kvp.Value.DataLength)
+                {
+                    Console.WriteLine("Non matching data {0}", kvp.Key);
+                }
             }
-            table.Dump();
         }
     }
 }

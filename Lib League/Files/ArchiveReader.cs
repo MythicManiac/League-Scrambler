@@ -16,8 +16,8 @@ namespace League.Files
         uint _fileListOffset;
         uint _pathListOffset;
 
-        ArchiveFileListEntry[] _fileList;
-        ArchivePathListEntry[] _pathList;
+        ArchiveFileInfoListEntry[] _fileList;
+        ArchivePathInfoListEntry[] _pathList;
 
         Archive _archive;
 
@@ -41,11 +41,20 @@ namespace League.Files
             return _archive;
         }
 
+        public byte[] ReadData(Archive archive, long offset, long length)
+        {
+            var result = new byte[length];
+            var stream = new FileStream(archive.DataFilePath, FileMode.Open, FileAccess.Read);
+            stream.Seek(offset, SeekOrigin.Begin);
+            stream.Read(result, 0, result.Length);
+            return result;
+        }
+
         private void DeserializeArchive()
         {
             DeserializeHeader();
-            DeserializeFileList();
-            DeserializePathList();
+            DeserializeFileInfoList();
+            DeserializePathInfoList();
             ProcessData();
         }
 
@@ -60,18 +69,18 @@ namespace League.Files
             _pathListOffset = _reader.ReadUInt32();
         }
 
-        private void DeserializeFileList()
+        private void DeserializeFileInfoList()
         {
             _stream.Seek(_fileListOffset, SeekOrigin.Begin);
 
-            _fileList = new ArchiveFileListEntry[_reader.ReadUInt32()];
+            _fileList = new ArchiveFileInfoListEntry[_reader.ReadUInt32()];
             for (uint i = 0; i < _fileList.Length; i++)
-                _fileList[i] = DeserializeFileListEntry();
+                _fileList[i] = DeserializeFileInfoListEntry();
         }
 
-        private ArchiveFileListEntry DeserializeFileListEntry()
+        private ArchiveFileInfoListEntry DeserializeFileInfoListEntry()
         {
-            var result = new ArchiveFileListEntry();
+            var result = new ArchiveFileInfoListEntry();
             result.PathHash = _reader.ReadUInt32();
             result.DataOffset = _reader.ReadUInt32();
             result.DataLength = _reader.ReadUInt32();
@@ -79,19 +88,19 @@ namespace League.Files
             return result;
         }
 
-        private void DeserializePathList()
+        private void DeserializePathInfoList()
         {
             // We don't care about how many bytes the path list has, so skip first 4 bytes.
             _stream.Seek(_pathListOffset + 4, SeekOrigin.Begin);
 
-            _pathList = new ArchivePathListEntry[_reader.ReadUInt32()];
+            _pathList = new ArchivePathInfoListEntry[_reader.ReadUInt32()];
             for (uint i = 0; i < _pathList.Length; i++)
-                _pathList[i] = DeserializePathListEntry();
+                _pathList[i] = DeserializePathInfoListEntry();
         }
 
-        private ArchivePathListEntry DeserializePathListEntry()
+        private ArchivePathInfoListEntry DeserializePathInfoListEntry()
         {
-            var result = new ArchivePathListEntry();
+            var result = new ArchivePathInfoListEntry();
             result.PathOffset = _reader.ReadUInt32();
             result.PathLength = _reader.ReadUInt32();
             return result;
@@ -99,10 +108,11 @@ namespace League.Files
 
         private void ProcessData()
         {
-            _archive.FileList = new Dictionary<string, ArchiveFileInfo>();
+            _archive.Files = new Dictionary<string, ArchiveFileInfo>();
 
             for(uint i = 0; i < _fileList.Length; i++)
             {
+                
                 var result = new ArchiveFileInfo();
                 result.Path = ReadString(_pathListOffset + _pathList[_fileList[i].PathIndex].PathOffset, _pathList[_fileList[i].PathIndex].PathLength - 1);
 
@@ -115,7 +125,7 @@ namespace League.Files
                 result.DataOffset = _fileList[i].DataOffset;
                 result.DataLength = _fileList[i].DataLength;
 
-                _archive.FileList.Add(result.Path, result);
+                _archive.Files.Add(result.Path, result);
             }
         }
 
@@ -128,7 +138,7 @@ namespace League.Files
         }
     }
 
-    public class ArchiveFileListEntry
+    public class ArchiveFileInfoListEntry
     {
         public uint PathHash { get; set; }
         public uint DataOffset { get; set; }
@@ -136,7 +146,7 @@ namespace League.Files
         public uint PathIndex { get; set; }
     }
 
-    public class ArchivePathListEntry
+    public class ArchivePathInfoListEntry
     {
         public uint PathOffset { get; set; }
         public uint PathLength { get; set; }

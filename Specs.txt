@@ -36,8 +36,6 @@ ArchiveReader
 		Archive ReadArchive(string filepath)											// Attempts to deserialize supplied file as a Riot Archive File.
 		Archive ReadArchive(byte[] data)												// Attempts to deserialize supplied file as a Riot Archive File.
 		byte[]	ReadData(Archive archive, long offset, long length)						// Reads a block of data from the provided archive file.
-		byte[]	ReadData(string filepath, long offset, long length)						// Reads a block of data from the specified file.
-		byte[]	ReadData(byte[] data, long offset, long length)							// Reads a block of data from the provided data.
 
 ArchiveWriter
 	Description
@@ -48,6 +46,7 @@ ArchiveWriter
 		byte[]	WriteArchive(Archive archive)											// Serializes the provided archive and returns the bytes of it as an array.
 		void	WriteData(Archive archive, byte[] data, long offset)					// Writes provided data to the specified offset in the provided archive's data file.
 		long	WriteData(Archive archive, byte[] data)									// Appends provided data to the end of specified archive's data file and returns the offset it was written to.
+		void	SetDataLength(Archive archive, long length)								// Sets the end point of the data file.
 
 ArchiveState
 	Description
