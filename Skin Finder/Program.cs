@@ -8,6 +8,7 @@ using System.IO;
 using League;
 using League.Utils;
 using League.Files.Manifest;
+using League.Files;
 
 namespace Skin_Finder
 {
@@ -15,7 +16,6 @@ namespace Skin_Finder
     {
         static ReleaseManifest Manifest { get; set; }
         static List<Character> characterFiles;
-        //static Dictionary<string, SkinGroup> skinGroups;
         static List<SkinGroup> skinGroups;
 
         static void Main(string[] args)
@@ -26,16 +26,30 @@ namespace Skin_Finder
 
             characterFiles = new List<Character>();
             skinGroups = new List<SkinGroup>();
-            SearchFolder(@"C:\Users\Mythic\Desktop\LolFiles\DATA\Characters\", ".inibin", 1);
+            //SearchFolder(@"C:\Users\Mythic\Desktop\LolFiles\DATA\Characters\", ".inibin", 1);
 
             Manifest = ReleaseManifest.LoadFromFile(@"C:\Games\League of Legends\RADS\projects\lol_game_client\releases\0.0.1.11\releasemanifest");
 
+            string iconPath = @"C:\Users\Mythic\Desktop\LolFiles\DATA\Spells\Icons2D\";
+
+            string[] icons = Directory.GetFiles(iconPath);
+            List<string> iconPaths = new List<string>();
+            for (int i = 0; i < icons.Length; i++)
+            {
+                iconPaths.Add(icons[i].Remove(0, @"C:\Users\Mythic\Desktop\LolFiles\".Length).Replace('\\', '/'));
+            }
+            PathListWriter writer = new PathListWriter();
+            writer.Write(@"C:\IconPaths.dat", iconPaths);
+
+            Console.WriteLine(iconPaths[0]);
+
+            /*
             for (int i = 0; i < characterFiles.Count; i++)
             {
                 if (characterFiles[i].Type.Contains("Minion") ||
                     characterFiles[i].Type.Contains("Monster") ||
                     characterFiles[i].Type.Contains("Champion") ||
-                    characterFiles[i].Inibin.InibinPath.Contains("Skins"))
+                    characterFiles[i].Inibin.InibinPath.ToLower().Contains("skins"))
                 {
                     characterFiles[i].LoadSkins(Manifest);
                     for (int j = 0; j < characterFiles[i].Skins.Length; j++)
@@ -72,6 +86,7 @@ namespace Skin_Finder
                 }
             }
             table.DumpTable();
+            */
             
 
             stopwatch.Stop();

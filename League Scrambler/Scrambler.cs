@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using League;
 using League.Tools;
 using League.Utils;
+using League.Files;
 
 namespace LeagueScrambler
 {
@@ -15,6 +16,17 @@ namespace LeagueScrambler
 
         private SkinGroup[] _skinTable;
         private SkinGroup[] _skinTableScrambled;
+        private string[] _squareIconTable;
+        private string[] _squareIconTableScrambled;
+        private string[] _loadingScreenTable;
+        private string[] _loadingScreenTableScrambled;
+        private string[] _circleIconTable;
+        private string[] _circleIconTableScrambled;
+        private string[] _abilityIconTable;
+        private string[] _abilityIconTableScrambled;
+        private string[] _itemIconTable;
+        private string[] _itemIconTableScrambled;
+
         private Dictionary<string, string> _skinChangeTable;
 
         public Scrambler(string leaguepath)
@@ -25,7 +37,13 @@ namespace LeagueScrambler
         public void Initialize()
         {
             SkinGroupReader reader = new SkinGroupReader();
+            PathListReader pr = new PathListReader();
             _skinTable = reader.Read(Properties.Resources.SkinGroups);
+            _squareIconTable = pr.Read(Properties.Resources.SquareIconPaths);
+            _circleIconTable = pr.Read(Properties.Resources.CircleIconPaths);
+            _abilityIconTable = pr.Read(Properties.Resources.AbilityIconPaths);
+            _loadingScreenTable = pr.Read(Properties.Resources.LoadScreenPaths);
+            _itemIconTable = pr.Read(Properties.Resources.ItemIconPaths);
         }
 
         public void Scramble()
@@ -47,8 +65,12 @@ namespace LeagueScrambler
                 _skinTableScrambled[i] = _skinTable[freeIndexes[index]];
                 freeIndexes.RemoveAt(index);
             }
-            
 
+            ScrambleArrays(_squareIconTable, ref _squareIconTableScrambled);
+            ScrambleArrays(_circleIconTable, ref _circleIconTableScrambled);
+            ScrambleArrays(_abilityIconTable, ref _abilityIconTableScrambled);
+            ScrambleArrays(_loadingScreenTable, ref _loadingScreenTableScrambled);
+            ScrambleArrays(_itemIconTable, ref _itemIconTableScrambled);
 
             // LEAGUE OF DRAVEN
             /*
@@ -65,6 +87,27 @@ namespace LeagueScrambler
                 }
             }
             */
+        }
+
+        private void ScrambleArrays(string[] table1, ref string[] table2)
+        {
+            // Generate an index table we can remove stuff out of
+            List<int> freeIndexes = new List<int>();
+            for (int i = 0; i < table1.Length; i++)
+            {
+                freeIndexes.Add(i);
+            }
+
+
+            // Fill and scramble the second table
+            table2 = new string[table1.Length];
+            Random random = new Random();
+            for (int i = 0; i < table2.Length; i++)
+            {
+                int index = random.Next(0, freeIndexes.Count);
+                table2[i] = table1[freeIndexes[index]];
+                freeIndexes.RemoveAt(index);
+            }
         }
 
         public void Prepare()
@@ -86,6 +129,15 @@ namespace LeagueScrambler
             }
         }
 
+        public void AddRequests(string[] files, Patcher patcher)
+        {
+            for(int i = 0; i < files.Length; i++)
+            {
+                patcher.AddFileRequest(files[i]);
+                Console.Title = string.Format("{0} / {1}", i + 1, files.Length);
+            }
+        }
+
         public void Patch()
         {
             Patcher patcher = new Patcher(LeagueLocations.GetArchivePath(LeaguePath), LeagueLocations.GetManifestPath(LeaguePath), LeagueLocations.GetBackupPath(LeaguePath));
@@ -97,6 +149,13 @@ namespace LeagueScrambler
                 patcher.AddFileRequest(kvp.Value);
                 i++;
             }
+
+            AddRequests(_abilityIconTableScrambled, patcher);
+            AddRequests(_loadingScreenTableScrambled, patcher);
+            AddRequests(_itemIconTableScrambled, patcher);
+            AddRequests(_squareIconTableScrambled, patcher);
+            AddRequests(_circleIconTableScrambled, patcher);
+
             Dictionary<string, byte[]> files = patcher.ReadFiles();
             i = 0;
             /*
@@ -118,7 +177,27 @@ namespace LeagueScrambler
                 patcher.AddFileChange(kvp.Key, files[kvp.Value]);
                 i++;
             }
+
+            AddFileChangeTable(_abilityIconTable, _abilityIconTableScrambled, files, patcher);
+            AddFileChangeTable(_loadingScreenTable, _loadingScreenTableScrambled, files, patcher);
+            AddFileChangeTable(_itemIconTable, _itemIconTableScrambled, files, patcher);
+            AddFileChangeTable(_squareIconTable, _squareIconTableScrambled, files, patcher);
+            AddFileChangeTable(_circleIconTable, _circleIconTableScrambled, files, patcher);
+
             patcher.Patch();
+        }
+
+        public void AddFileChangeTable(string[] keys, string[] values, Dictionary<string, byte[]> data, Patcher patcher)
+        {
+            if (keys.Length != values.Length)
+                throw new Exception("Keys and values must be of equal length");
+
+            for (int i = 0; i < keys.Length; i++)
+            {
+                if(data.ContainsKey(values[i]))
+                    patcher.AddFileChange(keys[i], data[values[i]]);
+                Console.Title = string.Format("{0} / {1}", i + 1, keys.Length);
+            }
         }
 
         public void Dump()

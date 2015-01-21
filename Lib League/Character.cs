@@ -25,12 +25,6 @@ namespace League
 
         public void LoadSkins(ReleaseManifest manifest)
         {
-            if (NameKey.ToLower().Contains("swain"))
-            {
-                Skins = new Skin[0];
-                return;
-            }
-
             List<Skin> skinList = new List<Skin>();
             for(int i = 0; i < 9; i++)
             {
@@ -39,6 +33,10 @@ namespace League
                     skinList.Add(current);
             }
             Skins = skinList.ToArray();
+            if(Skins.Length == 0 && (Type.ToLower().Contains("minion") || Type.ToLower().Contains("monster")))
+            {
+                Console.WriteLine("Found {0} skins for {1}", Skins.Length, Inibin.InibinPath);
+            }
         }
 
         public string Type
@@ -116,7 +114,7 @@ namespace League
                 {
                     if(matches[i].Contains(Path.GetDirectoryName(Inibin.LeaguePath).Replace('\\', '/') + '/'))
                     {
-                        Console.WriteLine("[MATCH] - {0} - {1} - {2}", Inibin.LeaguePath, filename, matches[i]);
+                        //Console.WriteLine("[MATCH] - {0} - {1} - {2}", Inibin.LeaguePath, filename, matches[i]);
                         return matches[i];
                     }
                 }
@@ -126,7 +124,7 @@ namespace League
                     {
                         if (matches[i].Contains("DATA/Characters/MonkeyKing/"))
                         {
-                            Console.WriteLine("[MATCH SPECIAL] - {0} - {1} - {2}", Inibin.LeaguePath, filename, matches[i]);
+                            //Console.WriteLine("[MATCH SPECIAL] - {0} - {1} - {2}", Inibin.LeaguePath, filename, matches[i]);
                             return matches[i];
                         }
                     }
@@ -137,18 +135,18 @@ namespace League
                     {
                         if (matches[i].Contains("DATA/Characters/Orianna/"))
                         {
-                            Console.WriteLine("[MATCH SPECIAL] - {0} - {1} - {2}", Inibin.LeaguePath, filename, matches[i]);
+                            //Console.WriteLine("[MATCH SPECIAL] - {0} - {1} - {2}", Inibin.LeaguePath, filename, matches[i]);
                             return matches[i];
                         }
                     }
                 }
-                if (Inibin.LeaguePath.Contains("Skins"))
+                if (Inibin.LeaguePath.ToLower().Contains("skins"))
                 {
                     for(int i = 0; i < matches.Count; i++)
                     {
-                        if(matches[i].Contains("/Skins/Base/"))
+                        if(matches[i].ToLower().Contains("/skins/base/"))
                         {
-                            Console.WriteLine("[MATCH NEW FORMAT] - {0} - {1} - {2}", Inibin.LeaguePath, filename, matches[i]);
+                            //Console.WriteLine("[MATCH NEW FORMAT] - {0} - {1} - {2}", Inibin.LeaguePath, filename, matches[i]);
                             return matches[i];
                         }
                     }

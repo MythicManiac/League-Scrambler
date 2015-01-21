@@ -170,7 +170,7 @@ namespace League.Tools
 
             }
             else
-                throw new Exception("Invalid key");
+                Console.WriteLine("Invalid key {0}", key);
         }
 
         public void AddFileRequest(string key)
@@ -183,11 +183,11 @@ namespace League.Tools
             }
             if (fileId > -1)
             {
-                if(!FileRequestTable.Contains(key))
+                if (!FileRequestTable.Contains(key))
                     FileRequestTable.Add(key);
             }
             else
-                throw new Exception("Invalid key");
+                Console.WriteLine("Invalid key {0}", key);
         }
 
         public Dictionary<string, byte[]> ReadFiles()

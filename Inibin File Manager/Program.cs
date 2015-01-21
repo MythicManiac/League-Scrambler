@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using League.Utils;
+using League.Files;
 
 namespace Inibin_File_Manager
 {
@@ -15,13 +16,13 @@ namespace Inibin_File_Manager
         static void Main(string[] args)
         {
             Console.SetOut(new Log("Output.txt"));
-
+            
+            /*
             inibinFiles = new List<string>();
 
             Console.Title = string.Format("Searching .inibin files... {0} found", inibinFiles.Count);
 
-            //SearchFolder(@"C:\Users\Mythic\Desktop\LolFiles\DATA\Characters\", ".inibin", 1);
-            SearchFolder(@"C:\Users\Mythic\Desktop\LolFiles\DATA\Characters\", ".inibin", 1);
+            SearchFolder(@"C:\Users\Mythic\Desktop\LolFiles\DATA\Characters\Blue_Minion_Basic\", ".inibin", 1);
 
             Console.WriteLine(string.Format("Inibin files found: {0}", inibinFiles.Count));
 
@@ -31,8 +32,37 @@ namespace Inibin_File_Manager
 
             Console.WriteLine("All done");
             Console.Title = "All done";
+            */
+
+            PathListWriter writer = new PathListWriter();
+
+            inibinFiles = new List<string>();
+            SearchFolder(@"C:\Users\Mythic\Desktop\LolFiles\DATA\Characters\", "circle", ".dds");
+            writer.Write(@"C:\CircleIconPaths.dat", GetValidValues());
+
+            inibinFiles = new List<string>();
+            SearchFolder(@"C:\Users\Mythic\Desktop\LolFiles\DATA\Characters\", "square", ".dds");
+            writer.Write(@"C:\SquareIconPaths.dat", GetValidValues());
+
+            inibinFiles = new List<string>();
+            SearchFolder(@"C:\Users\Mythic\Desktop\LolFiles\DATA\Characters\", "loadscreen", ".dds");
+            writer.Write(@"C:\LoadScreenPaths.dat", GetValidValues());
+
+            inibinFiles = new List<string>();
+            SearchFolder(@"C:\Users\Mythic\Desktop\LolFiles\DATA\Items\Icons2D", ".dds", ".dds");
+            writer.Write(@"C:\ItemIconPaths.dat", GetValidValues());
 
             Console.ReadKey();
+        }
+
+        static List<string> GetValidValues()
+        {
+            List<string> result = new List<string>();
+            for(int i = 0; i < inibinFiles.Count; i++)
+            {
+                result.Add(inibinFiles[i].Remove(0, @"C:\Users\Mythic\Desktop\LolFiles\".Length).Replace('\\', '/'));
+            }
+            return result;
         }
 
         static void SearchFolder(string folder, string extension, int depth)
@@ -88,7 +118,7 @@ namespace Inibin_File_Manager
                 if (Path.GetExtension(files[i]) == extension)
                 {
                     inibinFiles.Add(files[i]);
-                    Console.Title = string.Format("Searching .inibin files... {0} found", inibinFiles.Count);
+                    Console.Title = string.Format("Searching {1} files... {0} found", inibinFiles.Count, extension);
                 }
             }
 
@@ -96,6 +126,25 @@ namespace Inibin_File_Manager
             for (int i = 0; i < folders.Length; i++)
             {
                 SearchFolder(folders[i], extension);
+            }
+        }
+
+        static void SearchFolder(string folder, string match, string extension)
+        {
+            string[] files = Directory.GetFiles(folder);
+            for (int i = 0; i < files.Length; i++)
+            {
+                if (Path.GetExtension(files[i]) == extension && Path.GetFileName(files[i]).ToLower().Contains(match))
+                {
+                    inibinFiles.Add(files[i]);
+                    Console.Title = string.Format("Searching {1} files... {0} found", inibinFiles.Count, extension);
+                }
+            }
+
+            string[] folders = Directory.GetDirectories(folder);
+            for (int i = 0; i < folders.Length; i++)
+            {
+                SearchFolder(folders[i], match, extension);
             }
         }
     }

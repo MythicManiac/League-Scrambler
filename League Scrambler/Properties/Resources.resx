@@ -118,7 +118,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="AbilityIconPaths" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AbilityIconPaths.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CircleIconPaths" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CircleIconPaths.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ItemIconPaths" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemIconPaths.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="LoadScreenPaths" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LoadScreenPaths.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="SkinGroups" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SkinGroups.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SquareIconPaths" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SquareIconPaths.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

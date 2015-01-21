@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using League.Utils;
 using League.Tools;
 using League.Files.Manifest;
+using League.Files;
 
 namespace League_Patcher
 {
@@ -25,9 +26,10 @@ namespace League_Patcher
 
         public static void Run()
         {
-            Patcher patcher = new Patcher(@"C:\Games\League of Legends\RADS\projects\lol_game_client\filearchives\", @"C:\Games\League of Legends\RADS\projects\lol_game_client\releases\0.0.1.11\releasemanifest");
+            string lol = @"C:\Games\League of Legends\";
+            Patcher patcher = new Patcher(LeagueLocations.GetArchivePath(lol), LeagueLocations.GetManifestPath(lol), LeagueLocations.GetBackupPath(lol));
 
-            int mode = 1;
+            int mode = 5;
 
             if (mode == 1)
             {
@@ -56,6 +58,20 @@ namespace League_Patcher
             if(mode == 4)
             {
                 patcher.Backup(true);
+            }
+            if(mode == 5)
+            {
+                List<string> asd = new List<string>();
+                asd.Add("DSA");
+                asd.Add("LELELELE");
+                asd.Add("HOUSTU");
+                asd.Add("PAITA");
+                PathListWriter writer = new PathListWriter();
+                writer.Write(@"C:\PathList.dat", asd);
+                PathListReader reader = new PathListReader();
+                string[] paths = reader.Read(@"C:\PathList.dat");
+                for (int i = 0; i < paths.Length; i++)
+                    Console.WriteLine(paths[i]);
             }
         }
 

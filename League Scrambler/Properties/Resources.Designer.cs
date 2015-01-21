@@ -63,9 +63,59 @@ namespace LeagueScrambler.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] AbilityIconPaths {
+            get {
+                object obj = ResourceManager.GetObject("AbilityIconPaths", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] CircleIconPaths {
+            get {
+                object obj = ResourceManager.GetObject("CircleIconPaths", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] ItemIconPaths {
+            get {
+                object obj = ResourceManager.GetObject("ItemIconPaths", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] LoadScreenPaths {
+            get {
+                object obj = ResourceManager.GetObject("LoadScreenPaths", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] SkinGroups {
             get {
                 object obj = ResourceManager.GetObject("SkinGroups", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] SquareIconPaths {
+            get {
+                object obj = ResourceManager.GetObject("SquareIconPaths", resourceCulture);
                 return ((byte[])(obj));
             }
         }

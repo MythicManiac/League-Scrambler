@@ -56,7 +56,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Resources\AbilityIconPaths.dat" />
+    <None Include="Resources\CircleIconPaths.dat" />
+    <None Include="Resources\ItemIconPaths.dat" />
+    <None Include="Resources\LoadScreenPaths.dat" />
     <None Include="Resources\SkinGroups.dat" />
+    <None Include="Resources\SquareIconPaths.dat" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

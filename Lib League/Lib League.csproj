@@ -49,13 +49,15 @@
     <Compile Include="Files\Manifest\ReleaseManifest.cs" />
     <Compile Include="Files\Manifest\ReleaseManifestReader.cs" />
     <Compile Include="Files\Manifest\ReleaseManifestWriter.cs" />
+    <Compile Include="Files\PathListReader.cs" />
+    <Compile Include="Files\PathListWriter.cs" />
     <Compile Include="Files\RiotFile.cs" />
     <Compile Include="Hashes\CharacterHashes.cs" />
     <Compile Include="Hashes\SkinHashes.cs" />
     <Compile Include="Skin.cs" />
     <Compile Include="SkinGroup.cs" />
-    <Compile Include="SkinGroupReader.cs" />
-    <Compile Include="SkinGroupWriter.cs" />
+    <Compile Include="Files\SkinGroupReader.cs" />
+    <Compile Include="Files\SkinGroupWriter.cs" />
     <Compile Include="Tools\Patcher.cs" />
     <Compile Include="Utils\LeagueLocations.cs" />
     <Compile Include="Utils\Log.cs" />
@@ -63,9 +65,7 @@
     <Compile Include="Utils\ObjectList.cs" />
     <Compile Include="Utils\Table.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Files\Archive\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

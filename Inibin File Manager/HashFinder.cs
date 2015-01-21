@@ -40,12 +40,15 @@ namespace Inibin_File_Manager
                         if (!Data.ContainsKey(kvp.Key))
                             Data[kvp.Key] = new List<string>();
 
-                        if (kvp.Value.GetType() == typeof(string)/*&& ((string)kvp.Value).Contains('.')*/)
+                        if (kvp.Value.GetType() == typeof(string))
                         {
-                            string ext = ((string)kvp.Value).Split('.').Last();
+                            string ext = "";
 
-                            //if(/*ext == "skl" || */ext == "dds" /*|| ext == "skn" ||*/ /*ext == "blnd"*/)
-                            Data[kvp.Key].Add(string.Format("{0}{1}{2}", InibinFiles[i].LeaguePath, new string(' ', _longestName + 4 - InibinFiles[i].LeaguePath.Length), kvp.Value));
+                            if(((string)kvp.Value).Contains('.'))
+                                ext = ((string)kvp.Value).Split('.').Last();
+
+                            if(ext == "skl" || ext == "dds" || ext == "skn" || ext == "blnd")
+                                Data[kvp.Key].Add(string.Format("{0}{1}{2}", InibinFiles[i].LeaguePath, new string(' ', _longestName + 4 - InibinFiles[i].LeaguePath.Length), kvp.Value));
                         }
                     }
                 }
