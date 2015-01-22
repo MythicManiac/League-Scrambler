@@ -47,6 +47,7 @@ namespace League.Files
             var stream = new FileStream(archive.DataFilePath, FileMode.Open, FileAccess.Read);
             stream.Seek(offset, SeekOrigin.Begin);
             stream.Read(result, 0, result.Length);
+            stream.Close();
             return result;
         }
 

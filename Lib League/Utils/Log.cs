@@ -44,6 +44,15 @@ namespace League.Utils
             _logWriter.Flush();
         }
 
+        public override void WriteLine(float value)
+        {
+            _originalWriter.WriteLine(value);
+
+            byte[] bytes = ASCIIEncoding.ASCII.GetBytes(Convert.ToString(value) + Environment.NewLine);
+            _logWriter.Write(bytes, 0, bytes.Length);
+            _logWriter.Flush();
+        }
+
         public override void WriteLine(uint value)
         {
             _originalWriter.WriteLine(value);

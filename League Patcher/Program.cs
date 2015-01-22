@@ -18,7 +18,7 @@ namespace League_Patcher
             Console.SetOut(new Log("Output.txt"));
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            Run();
+            TestList();
             stopwatch.Stop();
             Console.WriteLine(string.Format("Operation completed in {0} milliseconds", stopwatch.ElapsedMilliseconds));
             Console.ReadKey();
@@ -53,7 +53,6 @@ namespace League_Patcher
             if (mode == 3)
             {
                 ReleaseManifest manifest = ReleaseManifest.LoadFromFile(@"C:\Games\League of Legends\RADS\projects\lol_game_client\releases\0.0.1.11\releasemanifest");
-                manifest.Dump();
             }
             if(mode == 4)
             {

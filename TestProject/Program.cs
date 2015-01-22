@@ -26,22 +26,18 @@ namespace TestProject
 
         public static void Run()
         {
-            string archivePath = @"C:\Games\League of Legends\RADS\projects\lol_game_client\filearchives\0.0.1.11\Archive_2.raf";
-            string archivePath2 = @"TestArchive.raf";
+            //string archivePath1 = @"C:\Games\League of Legends\RADS\projects\lol_game_client\filearchives\0.0.1.11\Archive_2.raf";
+            //string archivePath2 = @"TestArchive.raf";
+            //string filePath1 = @"debug.png";
+            //string filePath2 = @"test.png";
 
-            ArchiveReader reader = new ArchiveReader();
-            ArchiveWriter writer = new ArchiveWriter();
-            Archive original = reader.ReadArchive(archivePath);
-            writer.WriteArchive(original, archivePath2);
-            Archive rewritten = reader.ReadArchive(archivePath2);
-
-            foreach (var kvp in rewritten.Files)
-            {
-                if (rewritten.Files[kvp.Key].DataLength != kvp.Value.DataLength)
-                {
-                    Console.WriteLine("Non matching data {0}", kvp.Key);
-                }
-            }
+            //ArchiveReader reader = new ArchiveReader();
+            //ArchiveWriter writer = new ArchiveWriter();
+            //Archive rewritten = reader.ReadArchive(archivePath2);
+            //var data = File.ReadAllBytes(filePath1);
+            //var offset = writer.WriteData(rewritten, data);
+            //File.WriteAllBytes(filePath2, reader.ReadData(rewritten, offset, data.Length));
+            //writer.SetDataLength(rewritten, offset);
         }
     }
 }

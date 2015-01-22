@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using League.Files;
 using League.Hashes;
 
 namespace League.Files
@@ -42,6 +41,23 @@ namespace League.Files
             SerializeArchive();
 
             return _stream.ToArray();
+        }
+
+        public long WriteData(Archive archive, byte[] data)
+        {
+            var stream = new FileStream(archive.DataFilePath, FileMode.Open, FileAccess.ReadWrite);
+            stream.Seek(0, SeekOrigin.End);
+            var offset = stream.Position;
+            stream.Write(data, 0, data.Length);
+            stream.Flush();
+            stream.Close();
+            return offset;
+        }
+
+        public void SetDataLength(Archive archive, long length)
+        {
+            var stream = new FileStream(archive.DataFilePath, FileMode.Open, FileAccess.ReadWrite);
+            stream.SetLength(length);
         }
 
         private void SerializeArchive()
