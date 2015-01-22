@@ -12,6 +12,7 @@ ArchiveFileManager
 		byte[]	ReadFile(string filepath, bool uncompress, bool surpressErrors)				// Finds the archive of the specified filepath and proceeds to read and return it's data. Returns null if the specified file isn't found and errors are surpressed.
 		void	WriteFile(string filepath, bool compress, byte[] data)						// Attempts to find the archive of the supplied filepath and write the supplied data to it. Throws an error if filepath was not found.
 		void	WriteFile(string filepath, bool compress, byte[] data, bool surpressErrors)	// Attempts to find the archive of the supplied filepath and write the supplied data to it. Throws an error if filepath was not found and errors are not surpressed.
+		void	Finish()																	// Finishesh edits by writing changes to the releasemanifest and the archive state file.
 		void	Revert()																	// Attempts to revert all archives to their original state.
 
 Archive
@@ -47,7 +48,7 @@ ArchiveWriter
 
 ArchiveState
 	Description
-		Contains functions and data related to Riot ARchive Files states.
+		Contains functions and data related to Riot Archive Files states.
 	
 	
 	

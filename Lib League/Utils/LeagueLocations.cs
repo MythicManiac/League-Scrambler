@@ -56,6 +56,11 @@ namespace League.Utils
             return leaguePath + @"Mythic\";
         }
 
+        public static string GetArchiveStatePath(string leaguePath)
+        {
+            return leaguePath + @"Mythic\ArchiveStates.asi";
+        }
+
         private static string FindInstallataionLocation(RegistryKey parentKey, string name)
         {
             string[] nameList = parentKey.GetSubKeyNames();

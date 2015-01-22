@@ -32,13 +32,13 @@ namespace League.Files.Manifest
 
         public void SaveChanges()
         {
-            ReleaseManifestWriter writer = new ReleaseManifestWriter(this);
+            var writer = new ReleaseManifestWriter(this);
             writer.Save(FileLocation);
         }
 
         public static ReleaseManifest LoadFromFile(string path)
         {
-            ReleaseManifestReader reader = new ReleaseManifestReader(path);
+            var reader = new ReleaseManifestReader(path);
             return reader.Read();
         }
     }

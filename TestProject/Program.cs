@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using League.Utils;
 using League.Files;
+using League.Tools;
 using Ionic.Zlib;
 
 namespace TestProject
@@ -38,6 +39,28 @@ namespace TestProject
             //var offset = writer.WriteData(rewritten, data);
             //File.WriteAllBytes(filePath2, reader.ReadData(rewritten, offset, data.Length));
             //writer.SetDataLength(rewritten, offset);
+
+            var manager = new ArchiveFileManager(LeagueLocations.GetLeaguePath());
+            var files = manager.GetAllFilePaths();
+            var graphicFiles = new List<string>();
+
+            for (int i = 0; i < files.Length; i++)
+            {
+                if(files[i].Split('.').Last() == "dds")
+                {
+                    graphicFiles.Add(files[i]);
+                }
+            }
+
+            Console.WriteLine("Press something to begin writing");
+            Console.ReadKey();
+
+            for (int i = 0; i < graphicFiles.Count; i++)
+            {
+                Console.WriteLine("Reading files {0} / {1}", i + 1, files.Length);
+                File.WriteAllBytes(@"TestFolder\" + graphicFiles[i].Split('/').Last(), manager.ReadFile(graphicFiles[i], true));
+            }
+            Console.WriteLine("All files read!");
         }
     }
 }
