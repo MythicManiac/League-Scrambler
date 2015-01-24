@@ -18,7 +18,7 @@ namespace League_Patcher
             Console.SetOut(new Log("Output.txt"));
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            TestList();
+            Run();
             stopwatch.Stop();
             Console.WriteLine(string.Format("Operation completed in {0} milliseconds", stopwatch.ElapsedMilliseconds));
             Console.ReadKey();

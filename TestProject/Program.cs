@@ -27,40 +27,26 @@ namespace TestProject
 
         public static void Run()
         {
-            //string archivePath1 = @"C:\Games\League of Legends\RADS\projects\lol_game_client\filearchives\0.0.1.11\Archive_2.raf";
-            //string archivePath2 = @"TestArchive.raf";
-            //string filePath1 = @"debug.png";
-            //string filePath2 = @"test.png";
-
-            //ArchiveReader reader = new ArchiveReader();
-            //ArchiveWriter writer = new ArchiveWriter();
-            //Archive rewritten = reader.ReadArchive(archivePath2);
-            //var data = File.ReadAllBytes(filePath1);
-            //var offset = writer.WriteData(rewritten, data);
-            //File.WriteAllBytes(filePath2, reader.ReadData(rewritten, offset, data.Length));
-            //writer.SetDataLength(rewritten, offset);
-
             var manager = new ArchiveFileManager(LeagueLocations.GetLeaguePath());
-            var files = manager.GetAllFilePaths();
-            var graphicFiles = new List<string>();
 
-            for (int i = 0; i < files.Length; i++)
-            {
-                if(files[i].Split('.').Last() == "dds")
-                {
-                    graphicFiles.Add(files[i]);
-                }
-            }
+            var xinOriginal = manager.ReadFile("DATA/Characters/XinZhao/XinZhaoLoadScreen.dds", true);
+            var luxOriginal = manager.ReadFile("DATA/Characters/Lux/LuxLoadScreen.dds", true);
 
-            Console.WriteLine("Press something to begin writing");
-            Console.ReadKey();
+            if (manager.ArchivesModified)
+                manager.Revert();
 
-            for (int i = 0; i < graphicFiles.Count; i++)
-            {
-                Console.WriteLine("Reading files {0} / {1}", i + 1, files.Length);
-                File.WriteAllBytes(@"TestFolder\" + graphicFiles[i].Split('/').Last(), manager.ReadFile(graphicFiles[i], true));
-            }
-            Console.WriteLine("All files read!");
+            var xin = manager.ReadFile("DATA/Characters/XinZhao/XinZhaoLoadScreen.dds", true);
+            var lux = manager.ReadFile("DATA/Characters/Lux/LuxLoadScreen.dds", true);
+
+            manager.WriteFile("DATA/Characters/XinZhao/XinZhaoLoadScreen.dds", true, lux);
+            manager.WriteFile("DATA/Characters/Lux/LuxLoadScreen.dds", true, xin);
+
+            manager.WriteStateInfo();
+
+            File.WriteAllBytes(@"C:\Xin.dds", xin);
+            File.WriteAllBytes(@"C:\Lux.dds", lux);
+            File.WriteAllBytes(@"C:\XinOriginal.dds", xinOriginal);
+            File.WriteAllBytes(@"C:\LuxOriginal.dds", luxOriginal);
         }
     }
 }

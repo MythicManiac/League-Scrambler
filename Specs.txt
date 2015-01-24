@@ -49,6 +49,10 @@ ArchiveWriter
 ArchiveState
 	Description
 		Contains functions and data related to Riot Archive Files states.
-	
+
+		
+// TODO
+// Add support for multiple archives with same ID.
+// Add support for adding new files to archives
 	
 	

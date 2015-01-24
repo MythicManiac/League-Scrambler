@@ -46,7 +46,7 @@ namespace League.Files
 
         private void SerializeArchiveState(ArchiveState state)
         {
-            SerializeString(state.ArchivePath);
+            _writer.Write(state.ArchiveIndex);
             _writer.Write(state.OriginalLength);
 
             var originalStates = state.OriginalValues.Values.ToArray();

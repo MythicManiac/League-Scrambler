@@ -53,12 +53,27 @@ namespace League.Utils
 
         public static string GetBackupPath(string leaguePath)
         {
+            return GetModPath(leaguePath) + @"Backup\";
+        }
+
+        public static string GetModPath(string leaguePath)
+        {
             return leaguePath + @"Mythic\";
+        }
+
+        public static string GetManifestStatePath(string leaguePath)
+        {
+            return GetModPath(leaguePath) + @"ManifestState.sif";
         }
 
         public static string GetArchiveStatePath(string leaguePath)
         {
-            return leaguePath + @"Mythic\ArchiveStates.asi";
+            return GetModPath(leaguePath) + @"ArchiveStates.sif";
+        }
+
+        public static string GetCorruptFlagPath(string leaguePath)
+        {
+            return leaguePath + @"RADS\projects\lol_game_client\releases\0.0.1.11\SOFT_REPAIR";
         }
 
         private static string FindInstallataionLocation(RegistryKey parentKey, string name)

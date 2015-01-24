@@ -38,6 +38,13 @@ namespace League.Files
 
             DeserializeArchive();
 
+            if (File.Exists(_archive.DataFilePath))
+            {
+                var fs = new FileStream(_archive.DataFilePath, FileMode.Open, FileAccess.Read);
+                _archive.DataLength = fs.Length;
+                fs.Close();
+            }
+
             return _archive;
         }
 

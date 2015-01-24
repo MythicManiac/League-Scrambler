@@ -13,6 +13,7 @@ namespace League.Files
 
         public string FilePath { get { return _filePath; } internal set { _filePath = value; DataFilePath = value + ".dat"; } }
         public string DataFilePath { get; private set; }
+        public long DataLength { get; internal set; }
         public uint ArchiveIndex { get; internal set; }
         public uint ArchiveVersion { get; internal set; }
         public Dictionary<string, ArchiveFileInfo> Files { get; internal set; }
@@ -55,5 +56,14 @@ namespace League.Files
         public string Path { get; set; }
         public uint DataOffset { get; set; }
         public uint DataLength { get; set; }
+
+        public static ArchiveFileInfo Copy(ArchiveFileInfo original)
+        {
+            var result = new ArchiveFileInfo();
+            result.Path = original.Path;
+            result.DataOffset = original.DataOffset;
+            result.DataLength = original.DataLength;
+            return result;
+        }
     }
 }
