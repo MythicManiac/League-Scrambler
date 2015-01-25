@@ -18,7 +18,8 @@ namespace LeagueScrambler
         private string _message;
         private Settings _settings;
 
-        private ArchiveFileManager _manager;
+        private ArchiveFileManager _fileManager;
+        private BackupManager _backupManager;
 
         public Interface(string leaguePath) { _leaguePath = leaguePath; }
 
@@ -28,7 +29,7 @@ namespace LeagueScrambler
             Console.WriteLine("Initializing...");
 
             _menus = new List<Menu>();
-            Menu menu = new Menu();
+            var menu = new Menu();
             menu.Options.Add(new MenuOption("Backup files", Backup));
             menu.Options.Add(new MenuOption("Scramble files", Scramble));
             menu.Options.Add(new MenuOption("Restore files (Work changes backwards)", Restore));
@@ -36,11 +37,19 @@ namespace LeagueScrambler
             menu.Options.Add(new MenuOption("Options", OpenSettings));
             menu.Options.Add(new MenuOption("Exit", Exit));
             _menus.Add(menu);
+
             _settings = new Settings(this);
             _menus.Add(_settings);
+
+            menu = new Menu();
+            menu.Options.Add(new MenuOption("Remove old backup and take a new one", ForceBackup));
+            menu.Options.Add(new MenuOption("Go back", ReturnToMainMenu));
+            _menus.Add(menu);
+
             _menuId = 0;
             _message = "";
-            _manager = new ArchiveFileManager(_leaguePath);
+            _fileManager = new ArchiveFileManager(_leaguePath);
+            _backupManager = new BackupManager(_leaguePath);
         }
 
         public void Run()
@@ -81,9 +90,33 @@ namespace LeagueScrambler
 
         public void Backup()
         {
-            Patcher patcher = new Patcher(LeagueLocations.GetArchivePath(_leaguePath), LeagueLocations.GetManifestPath(_leaguePath), LeagueLocations.GetBackupPath(_leaguePath));
-            patcher.Backup(true);
-            Console.Title = "League Scrambler";
+            if (!_backupManager.GetBackupState())
+            {
+                Console.Clear();
+                Console.WriteLine("Taking a backup");
+                _backupManager.Backup(true);
+                _message = "Backup taken";
+            }
+            else
+            {
+                _message = "A backup already exists, would you like to overwrite it?";
+                _menuId = 2;
+            }
+        }
+
+        public void ForceBackup()
+        {
+            Console.Clear();
+            Console.WriteLine("Taking a backup");
+
+            _backupManager.Backup(true);
+            _menuId = 0;
+            _message = "Backup taken";
+        }
+
+        public void ReturnToMainMenu()
+        {
+            _menuId = 0;
         }
 
         public void Scramble()
@@ -92,7 +125,7 @@ namespace LeagueScrambler
             Console.WriteLine("Scrambling files");
             Scrambler scrambler = new Scrambler(_leaguePath);
             scrambler.Scramble(_settings);
-            scrambler.Patch(_manager);
+            scrambler.Patch(_fileManager);
             Console.Title = "League Scrambler";
             Console.WriteLine("Done");
             Console.WriteLine("Press any key to continue");
@@ -103,20 +136,18 @@ namespace LeagueScrambler
         {
             Console.Clear();
             Console.WriteLine("Reverting changes...");
-            _manager.Revert();
+            _fileManager.Revert();
             _message = "Changes reverted";
         }
 
         public void RestoreBackup()
         {
-            Patcher patcher = new Patcher(LeagueLocations.GetArchivePath(_leaguePath), LeagueLocations.GetManifestPath(_leaguePath), LeagueLocations.GetBackupPath(_leaguePath));
-            patcher.Restore(false);
-            
-            // Remove the corrupt data flag if it exists
-            if (File.Exists(LeagueLocations.GetCorruptFlagPath(_leaguePath)))
-                File.Delete(LeagueLocations.GetCorruptFlagPath(_leaguePath));
+            Console.Clear();
+            Console.WriteLine("Restoring backup");
 
-            Console.Title = "League Scrambler";
+            _backupManager.Restore(false);
+
+            _message = "Backup restored";
         }
 
         public void OpenSettings()

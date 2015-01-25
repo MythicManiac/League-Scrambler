@@ -13,13 +13,13 @@ namespace LeagueScrambler
         public Settings(Interface userInterface)
         {
             _interface = userInterface;
-            Options.Add(new SettingsOption(true, "Scramble models", new Action(ToggleModels)));
-            Options.Add(new SettingsOption(true, "Scramble loadingscreen images", new Action(ToggleLoadingscreens)));
-            Options.Add(new SettingsOption(true, "Scramble ability icons", new Action(ToggleAbilities)));
-            Options.Add(new SettingsOption(true, "Scramble minimap icons", new Action(ToggleMinimap)));
-            Options.Add(new SettingsOption(true, "Scramble champion info icons", new Action(ToggleSquare)));
-            Options.Add(new SettingsOption(false, "Scramble item icons", new Action(ToggleItems)));
-            Options.Add(new MenuOption("Back", new Action(GoBack)));
+            Options.Add(new SettingsOption(true, "Scramble models", ToggleModels));
+            Options.Add(new SettingsOption(true, "Scramble loadingscreen images", ToggleLoadingscreens));
+            Options.Add(new SettingsOption(true, "Scramble ability icons", ToggleAbilities));
+            Options.Add(new SettingsOption(true, "Scramble minimap icons", ToggleMinimap));
+            Options.Add(new SettingsOption(true, "Scramble champion info icons", ToggleSquare));
+            Options.Add(new SettingsOption(false, "Scramble item icons", ToggleItems));
+            Options.Add(new MenuOption("Back", GoBack));
         }
 
         public bool this[int index]

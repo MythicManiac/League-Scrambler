@@ -52,7 +52,7 @@ ArchiveState
 
 		
 // TODO
-// Add support for multiple archives with same ID.
-// Add support for adding new files to archives
+// IMPORTANT: Add support for multiple archives with same ID. Currently all files aren't patched because they're not found in the dictionary.
+// Write proper code for the interface
 	
 	
