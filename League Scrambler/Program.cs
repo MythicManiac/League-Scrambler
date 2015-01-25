@@ -14,8 +14,6 @@ namespace LeagueScrambler
         [STAThread]
         static void Main(string[] args)
         {
-            // Setup console properly
-            Console.SetOut(new Log("Output.txt"));
             Console.Title = "League Scrambler";
 
             // Search for League of Legends installation path from registry
@@ -46,6 +44,8 @@ namespace LeagueScrambler
                         return;
                 }
             }
+
+            Console.SetOut(new Log(LeagueLocations.GetModPath(leaguePath) + "log.txt"));
 
             // Launch the interface
             Interface ui = new Interface(leaguePath);

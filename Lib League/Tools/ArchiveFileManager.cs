@@ -16,12 +16,15 @@ namespace League.Tools
         private ReleaseManifest _manifest;
 
         private Dictionary<string, ReleaseManifestFileEntry> _indexTable;
+        private Dictionary<string, ArchiveWriteBuffer> _bufferTable;
         private Dictionary<string, ArchiveState> _archiveStates;
         private Dictionary<string, Archive> _archiveTable;
         private Dictionary<string, Archive> _fileTable;
 
         private ArchiveReader _reader;
         private ArchiveWriter _writer;
+
+        private bool _writing;
 
         private string _leaguePath;
 
@@ -38,6 +41,7 @@ namespace League.Tools
             _leaguePath = leaguePath;
             _reader = new ArchiveReader();
             _writer = new ArchiveWriter();
+            _writing = false;
 
             LoadManifestPaths();
             LoadArchiveStates();
@@ -129,6 +133,19 @@ namespace League.Tools
             return file;
         }
 
+        public void BeginWriting()
+        {
+            if (_writing)
+                throw new Exception("Must call EndWriting() before calling BeginWriting() again");
+
+            if (ArchivesModified)
+                Revert();
+
+            _bufferTable = new Dictionary<string, ArchiveWriteBuffer>();
+
+            _writing = true;
+        }
+
         public void WriteFile(string filepath, bool compress, byte[] data)
         {
             WriteFile(filepath, compress, data, false);
@@ -136,6 +153,9 @@ namespace League.Tools
 
         public void WriteFile(string filepath, bool compress, byte[] data, bool surpressErrors)
         {
+            if (!_writing)
+                throw new Exception("Must call BeginWriting() before calling WriteFile()");
+
             if (!_indexTable.ContainsKey(filepath))
             {
                 if (!surpressErrors)
@@ -187,14 +207,15 @@ namespace League.Tools
                 _archiveStates[archive.FilePath] = state;
             }
 
-            var offset = _writer.WriteData(archive, data);
+            if (!_bufferTable.ContainsKey(archive.FilePath))
+                _bufferTable[archive.FilePath] = new ArchiveWriteBuffer();
+
+            _bufferTable[archive.FilePath].WriteData(filepath, data);
 
             // Copy file info to the list of originals and then modify it
             if (!_archiveStates[archive.FilePath].OriginalValues.ContainsKey(filepath))
             {
                 _archiveStates[archive.FilePath].OriginalValues[filepath] = ArchiveFileInfo.Copy(_fileTable[filepath].Files[filepath]);
-                archive.Files[filepath].DataLength = (uint)data.Length;
-                archive.Files[filepath].DataOffset = (uint)offset;
             }
 
             // Handle manifest changes
@@ -202,19 +223,50 @@ namespace League.Tools
             _indexTable[filepath].Descriptor.DecompressedSize = uncomporessedLength;
         }
 
-        public void WriteStateInfo()
+        public void EndWriting()
         {
+            if (!_writing)
+                throw new Exception("BeginWriting() must be called before called EndWriting()");
+
+            foreach(var kvp in _bufferTable)
+            {
+                var offset = 0U;
+
+                foreach (var file in kvp.Value.Data)
+                {
+                    var position = _writer.WriteData(_archiveTable[kvp.Key], file);
+
+                    if (offset == 0)
+                        offset = (uint)position;
+                }
+
+                foreach (var info in kvp.Value.Metadata)
+                {
+                    _archiveTable[kvp.Key].Files[info.Path].DataLength = info.DataLength;
+                    _archiveTable[kvp.Key].Files[info.Path].DataOffset = offset + info.DataOffset;
+                }
+
+                _writer.WriteArchive(_archiveTable[kvp.Key], _archiveTable[kvp.Key].FilePath);
+                Console.WriteLine("Archive written to {0}", kvp.Key);
+            }
+
+            WriteStateInfo();
+
+            _writing = false;
+        }
+
+        private void WriteStateInfo()
+        {
+            //Make sure our directory exists
+            if (!Directory.Exists(LeagueLocations.GetModPath(_leaguePath)))
+                Directory.CreateDirectory(LeagueLocations.GetModPath(_leaguePath));
+
             // Backup manifest
             if (File.Exists(LeagueLocations.GetManifestStatePath(_leaguePath)))
                 File.Delete(LeagueLocations.GetManifestStatePath(_leaguePath));
 
             File.Copy(LeagueLocations.GetManifestPath(_leaguePath), LeagueLocations.GetManifestStatePath(_leaguePath));
 
-            foreach(ArchiveState state in _archiveStates.Values)
-            {
-                _writer.WriteArchive(_archiveTable[state.ArchivePath], _archiveTable[state.ArchivePath].FilePath);
-                Console.WriteLine("Archive written to {0}", state.ArchivePath);
-            }
             var writer = new ArchiveStateWriter();
             writer.WriteArchiveStates(_archiveStates.Values.ToArray(), LeagueLocations.GetArchiveStatePath(_leaguePath));
             _manifest.SaveChanges();

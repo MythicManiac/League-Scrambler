@@ -52,7 +52,8 @@ ArchiveState
 
 		
 // TODO
-// Modify Archive File Manager so writing batches of files is faster. Combine files which share a common target into one block of data and write it all at once.
+// Make compressed size and uncompressed size passable as an argument to the WriteFile method.
+// Make it possible to receive a files compressed and uncompressed size from ReadFile.
+// Create an ArchiveFile class which contains the file's data, the filepath, uncompressed size and the compressed size of the file.
 // Write proper code for the interface
-// Change log file location
 // Make Archive File Manager to be able to return all filepaths, not just the ones in the releasemanifest.

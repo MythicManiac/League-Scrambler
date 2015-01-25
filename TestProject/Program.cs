@@ -38,10 +38,12 @@ namespace TestProject
             var xin = manager.ReadFile("DATA/Characters/XinZhao/XinZhaoLoadScreen.dds", true);
             var lux = manager.ReadFile("DATA/Characters/Lux/LuxLoadScreen.dds", true);
 
+            manager.BeginWriting();
+
             manager.WriteFile("DATA/Characters/XinZhao/XinZhaoLoadScreen.dds", true, lux);
             manager.WriteFile("DATA/Characters/Lux/LuxLoadScreen.dds", true, xin);
 
-            manager.WriteStateInfo();
+            manager.EndWriting();
 
             File.WriteAllBytes(@"C:\Xin.dds", xin);
             File.WriteAllBytes(@"C:\Lux.dds", lux);

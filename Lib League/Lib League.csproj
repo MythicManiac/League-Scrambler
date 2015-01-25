@@ -48,6 +48,7 @@
     <Compile Include="Files\ArchiveState.cs" />
     <Compile Include="Files\ArchiveStateReader.cs" />
     <Compile Include="Files\ArchiveStateWriter.cs" />
+    <Compile Include="Files\ArchiveWriteBuffer.cs" />
     <Compile Include="Files\ArchiveWriter.cs" />
     <Compile Include="Files\OldArchive.cs" />
     <Compile Include="Files\Inibin.cs" />

@@ -107,12 +107,6 @@ namespace LeagueScrambler
 
         public void Patch(ArchiveFileManager manager)
         {
-            if (manager.ArchivesModified)
-            {
-                Console.Title = "Reverting previous modifications...";
-                manager.Revert();
-            }
-
             _files = new Dictionary<string, byte[]>();
             var fileList = _patchList.Values.ToArray();
 
@@ -127,6 +121,8 @@ namespace LeagueScrambler
                 }
             }
 
+            manager.BeginWriting();
+
             int position = 1;
             foreach (var kvp in _patchList)
             {
@@ -136,7 +132,7 @@ namespace LeagueScrambler
                 position++;
             }
 
-            manager.WriteStateInfo();
+            manager.EndWriting();
         }
 
         private void AddSkinChange(Skin orignal, Skin target)
