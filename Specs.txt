@@ -53,6 +53,5 @@ ArchiveState
 		
 // TODO
 // IMPORTANT: Add support for multiple archives with same ID. Currently all files aren't patched because they're not found in the dictionary.
+// Modify Archive File Manager so writing batches of files is faster. Combine files which share a common target into one block of data and write it all at once. Maybe it's own class?
 // Write proper code for the interface
-	
-	

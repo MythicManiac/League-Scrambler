@@ -67,7 +67,6 @@
     <Compile Include="Files\SkinGroupWriter.cs" />
     <Compile Include="Tools\ArchiveFileManager.cs" />
     <Compile Include="Tools\BackupManager.cs" />
-    <Compile Include="Tools\Patcher.cs" />
     <Compile Include="Utils\LeagueLocations.cs" />
     <Compile Include="Utils\Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

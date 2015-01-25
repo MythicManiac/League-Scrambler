@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lib League", "Lib League\Li
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inibin File Manager", "Inibin File Manager\Inibin File Manager.csproj", "{36C4C006-AB65-4D26-907C-84D4C9282C4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "League Patcher", "League Patcher\League Patcher.csproj", "{3C214C4A-6DF8-4709-8F77-B52F8D49AFB7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "League Scrambler", "League Scrambler\League Scrambler.csproj", "{0090024D-CB8E-4362-AC1E-562B126FC358}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject", "TestProject\TestProject.csproj", "{32EF6811-5A0E-49CF-9B18-15D7C13447C9}"
@@ -90,21 +88,6 @@ Global
 		{36C4C006-AB65-4D26-907C-84D4C9282C4D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{36C4C006-AB65-4D26-907C-84D4C9282C4D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{36C4C006-AB65-4D26-907C-84D4C9282C4D}.Release|x86.ActiveCfg = Release|Any CPU
-		{3C214C4A-6DF8-4709-8F77-B52F8D49AFB7}.Debug_Nightly|Any CPU.ActiveCfg = Debug|Any CPU
-		{3C214C4A-6DF8-4709-8F77-B52F8D49AFB7}.Debug_Nightly|Any CPU.Build.0 = Debug|Any CPU
-		{3C214C4A-6DF8-4709-8F77-B52F8D49AFB7}.Debug_Nightly|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{3C214C4A-6DF8-4709-8F77-B52F8D49AFB7}.Debug_Nightly|Mixed Platforms.Build.0 = Debug|Any CPU
-		{3C214C4A-6DF8-4709-8F77-B52F8D49AFB7}.Debug_Nightly|x86.ActiveCfg = Debug|Any CPU
-		{3C214C4A-6DF8-4709-8F77-B52F8D49AFB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3C214C4A-6DF8-4709-8F77-B52F8D49AFB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3C214C4A-6DF8-4709-8F77-B52F8D49AFB7}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{3C214C4A-6DF8-4709-8F77-B52F8D49AFB7}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{3C214C4A-6DF8-4709-8F77-B52F8D49AFB7}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{3C214C4A-6DF8-4709-8F77-B52F8D49AFB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3C214C4A-6DF8-4709-8F77-B52F8D49AFB7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3C214C4A-6DF8-4709-8F77-B52F8D49AFB7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{3C214C4A-6DF8-4709-8F77-B52F8D49AFB7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{3C214C4A-6DF8-4709-8F77-B52F8D49AFB7}.Release|x86.ActiveCfg = Release|Any CPU
 		{0090024D-CB8E-4362-AC1E-562B126FC358}.Debug_Nightly|Any CPU.ActiveCfg = Debug|Any CPU
 		{0090024D-CB8E-4362-AC1E-562B126FC358}.Debug_Nightly|Any CPU.Build.0 = Debug|Any CPU
 		{0090024D-CB8E-4362-AC1E-562B126FC358}.Debug_Nightly|Mixed Platforms.ActiveCfg = Debug|Any CPU
