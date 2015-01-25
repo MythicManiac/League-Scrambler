@@ -15,9 +15,10 @@ namespace League.Tools
     {
         private ReleaseManifest _manifest;
 
-        private Dictionary<string, ReleaseManifestFileEntry> _pathTable;
-        private Dictionary<uint, ArchiveState> _archiveStates;
-        private Dictionary<uint, Archive> _archiveTable;
+        private Dictionary<string, ReleaseManifestFileEntry> _indexTable;
+        private Dictionary<string, ArchiveState> _archiveStates;
+        private Dictionary<string, Archive> _archiveTable;
+        private Dictionary<string, Archive> _fileTable;
 
         private ArchiveReader _reader;
         private ArchiveWriter _writer;
@@ -45,37 +46,52 @@ namespace League.Tools
 
         private void LoadManifestPaths()
         {
+            Console.WriteLine("Loading file info...");
             _manifest = ReleaseManifest.LoadFromFile(LeagueLocations.GetManifestPath(_leaguePath));
-            _pathTable = new Dictionary<string, ReleaseManifestFileEntry>();
+            _indexTable = new Dictionary<string, ReleaseManifestFileEntry>();
 
             for(int i = 0; i < _manifest.Files.Length; i++)
             {
                 if(_manifest.Files[i].EntityType != 4)
-                    _pathTable[_manifest.Files[i].FullName] = _manifest.Files[i];
+                    _indexTable[_manifest.Files[i].FullName] = _manifest.Files[i];
             }
         }
 
         private void LoadArchiveStates()
         {
-            _archiveStates = new Dictionary<uint, ArchiveState>();
+            Console.WriteLine("Loading state info...");
+            _archiveStates = new Dictionary<string, ArchiveState>();
             if(File.Exists(LeagueLocations.GetArchiveStatePath(_leaguePath)))
             {
                 var states = new ArchiveStateReader().ReadArchiveStates(LeagueLocations.GetArchiveStatePath(_leaguePath));
                 for(int i = 0; i < states.Length; i++)
                 {
-                    _archiveStates[states[i].ArchiveIndex] = states[i];
+                    _archiveStates[states[i].ArchivePath] = states[i];
                 }
             }
         }
 
         private void LoadArchives()
         {
-            _archiveTable = new Dictionary<uint, Archive>();
+            Console.WriteLine("Indexing files...");
+            _archiveTable = new Dictionary<string, Archive>();
+            _fileTable = new Dictionary<string, Archive>();
             var files = Directory.EnumerateFiles(LeagueLocations.GetArchivePath(_leaguePath), "*.raf", SearchOption.AllDirectories).ToArray();
             for(int i = 0; i < files.Length; i++)
             {
                 var archive = _reader.ReadArchive(files[i]);
-                _archiveTable[archive.GetManagerIndex()] = archive;
+                _archiveTable[archive.FilePath] = archive;
+                foreach(var kvp in archive.Files)
+                {
+                    if (!_fileTable.ContainsKey(kvp.Key))
+                    {
+                        _fileTable[kvp.Key] = archive;
+                    }
+                    else if (_indexTable.ContainsKey(kvp.Key) && _indexTable[kvp.Key].ArchiveId == archive.GetManagerIndex())
+                    {
+                        _fileTable[kvp.Key] = archive;
+                    }
+                }
             }
         }
 
@@ -86,7 +102,7 @@ namespace League.Tools
 
         public byte[] ReadFile(string filepath, bool uncompress, bool surpressErrors)
         {
-            if(!_pathTable.ContainsKey(filepath))
+            if (!_indexTable.ContainsKey(filepath))
             {
                 if (!surpressErrors)
                     throw new FileNotFoundException("File with given path was not found in the releasemanifest");
@@ -94,19 +110,16 @@ namespace League.Tools
                 Console.WriteLine("Following file was not found in the releasemanifest: {0}", filepath);
                 return null;
             }
-
-            var id = _pathTable[filepath].ArchiveId;
-            var archive = _archiveTable[id];
-
-            if (!archive.Files.ContainsKey(filepath))
+            if (!_fileTable.ContainsKey(filepath))
             {
                 if (!surpressErrors)
-                    throw new FileNotFoundException("File with given path was not found in the archive");
+                    throw new FileNotFoundException("File with given path was not found in the file table");
 
                 Console.WriteLine("Following file was not found: {0}", filepath);
                 return null;
             }
 
+            var archive = _fileTable[filepath];
             var info = archive.Files[filepath];
             var file = _reader.ReadData(archive, info.DataOffset, info.DataLength);
 
@@ -123,7 +136,7 @@ namespace League.Tools
 
         public void WriteFile(string filepath, bool compress, byte[] data, bool surpressErrors)
         {
-            if (!_pathTable.ContainsKey(filepath))
+            if (!_indexTable.ContainsKey(filepath))
             {
                 if (!surpressErrors)
                     throw new FileNotFoundException("File with given path was not found in the releasemanifest");
@@ -132,26 +145,16 @@ namespace League.Tools
                 return;
             }
 
-            if (!_archiveTable[_pathTable[filepath].ArchiveId].Files.ContainsKey(filepath))
+            if (!_fileTable.ContainsKey(filepath))
             {
                 if (!surpressErrors)
-                    throw new FileNotFoundException("File with given path was not found in the archive");
+                    throw new FileNotFoundException("File with given path was not found in the file table");
 
                 Console.WriteLine("Following file was not found: {0}", filepath);
                 return;
             }
 
-            WriteFile(_pathTable[filepath].ArchiveId, filepath, compress, data, surpressErrors);
-        }
-
-        private void WriteFile(uint archiveId, string filepath, bool compress, byte[] data)
-        {
-            WriteFile(archiveId, filepath, compress, data, false);
-        }
-
-        private void WriteFile(uint archiveId, string filepath, bool compress, byte[] data, bool surpressErrors)
-        {
-            var archive = _archiveTable[archiveId];
+            var archive = _fileTable[filepath];
 
             // Handle compression and uncompression
             var uncomporessedLength = 0U;
@@ -175,28 +178,28 @@ namespace League.Tools
             }
 
             // Handle archive state creation
-            if(!_archiveStates.ContainsKey(archiveId))
+            if(!_archiveStates.ContainsKey(archive.FilePath))
             {
                 var state = new ArchiveState();
-                state.ArchiveIndex = archiveId;
+                state.ArchivePath = archive.FilePath;
                 state.OriginalLength = archive.DataLength;
                 state.OriginalValues = new Dictionary<string, ArchiveFileInfo>();
-                _archiveStates[archiveId] = state;
+                _archiveStates[archive.FilePath] = state;
             }
 
             var offset = _writer.WriteData(archive, data);
 
             // Copy file info to the list of originals and then modify it
-            if (!_archiveStates[archiveId].OriginalValues.ContainsKey(filepath))
+            if (!_archiveStates[archive.FilePath].OriginalValues.ContainsKey(filepath))
             {
-                _archiveStates[archiveId].OriginalValues[filepath] = ArchiveFileInfo.Copy(_archiveTable[archiveId].Files[filepath]);
+                _archiveStates[archive.FilePath].OriginalValues[filepath] = ArchiveFileInfo.Copy(_fileTable[filepath].Files[filepath]);
                 archive.Files[filepath].DataLength = (uint)data.Length;
                 archive.Files[filepath].DataOffset = (uint)offset;
             }
 
             // Handle manifest changes
-            _pathTable[filepath].Descriptor.CompressedSize = compressedLength;
-            _pathTable[filepath].Descriptor.DecompressedSize = uncomporessedLength;
+            _indexTable[filepath].Descriptor.CompressedSize = compressedLength;
+            _indexTable[filepath].Descriptor.DecompressedSize = uncomporessedLength;
         }
 
         public void WriteStateInfo()
@@ -209,8 +212,8 @@ namespace League.Tools
 
             foreach(ArchiveState state in _archiveStates.Values)
             {
-                _writer.WriteArchive(_archiveTable[state.ArchiveIndex], _archiveTable[state.ArchiveIndex].FilePath);
-                Console.WriteLine("Archive written to {0}", _archiveTable[state.ArchiveIndex].FilePath);
+                _writer.WriteArchive(_archiveTable[state.ArchivePath], _archiveTable[state.ArchivePath].FilePath);
+                Console.WriteLine("Archive written to {0}", state.ArchivePath);
             }
             var writer = new ArchiveStateWriter();
             writer.WriteArchiveStates(_archiveStates.Values.ToArray(), LeagueLocations.GetArchiveStatePath(_leaguePath));
@@ -228,7 +231,7 @@ namespace League.Tools
             // Reverse archives
             for(int i = 0; i < states.Length; i++)
             {
-                var archive = _archiveTable[states[i].ArchiveIndex];
+                var archive = _archiveTable[states[i].ArchivePath];
                 foreach(var entry in states[i].OriginalValues)
                 {
                     archive.Files[entry.Key] = entry.Value;
@@ -243,7 +246,7 @@ namespace League.Tools
             File.Delete(LeagueLocations.GetManifestStatePath(_leaguePath));
 
             // Clear local variables and save them
-            _archiveStates = new Dictionary<uint, ArchiveState>();
+            _archiveStates = new Dictionary<string, ArchiveState>();
             _manifest = ReleaseManifest.LoadFromFile(LeagueLocations.GetManifestPath(_leaguePath));
             LoadManifestPaths();
             WriteStateInfo();
@@ -253,9 +256,9 @@ namespace League.Tools
                 File.Delete(LeagueLocations.GetCorruptFlagPath(_leaguePath));
         }
 
-        public string[] GetAllFilePaths()
+        public string[] GetAllFileIndexes()
         {
-            return _pathTable.Keys.ToArray();
+            return _indexTable.Keys.ToArray();
         }
 
         public ReleaseManifestFileEntry[] GetAllFileEntries()

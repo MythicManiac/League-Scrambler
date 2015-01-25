@@ -8,7 +8,7 @@ namespace League.Files
 {
     public class ArchiveState
     {
-        public uint ArchiveIndex { get; set; }
+        public string ArchivePath { get; set; }
         public long OriginalLength { get; set; }
         public Dictionary<string, ArchiveFileInfo> OriginalValues { get; set; }
     }

@@ -42,7 +42,7 @@ namespace League.Files
         private ArchiveState DeserializeArchiveState()
         {
             var result = new ArchiveState();
-            result.ArchiveIndex = _reader.ReadUInt32();
+            result.ArchivePath = DeserializeString();
             result.OriginalLength = _reader.ReadInt64();
             result.OriginalValues = new Dictionary<string, ArchiveFileInfo>();
 
