@@ -1,0 +1,6 @@
+Embed .dll files to resources
+Rework skin file search
+Create a working search class
+Make sure not found skins are skipped
+Write proper code for the interface
+Make Archive File Manager to be able to return all filepaths, not just the ones in the releasemanifest.
