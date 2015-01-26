@@ -18,7 +18,7 @@ namespace LeagueScrambler
         private SkinGroup[] _skinTableScrambled;
         private List<ScramblerChangeArray> _changes;
         private Dictionary<string, string> _patchList;
-        private Dictionary<string, byte[]> _files;
+        private Dictionary<string, ArchiveFile> _files;
 
         public Scrambler(string leaguepath)
         {
@@ -107,7 +107,7 @@ namespace LeagueScrambler
 
         public void Patch(ArchiveFileManager manager)
         {
-            _files = new Dictionary<string, byte[]>();
+            _files = new Dictionary<string, ArchiveFile>();
             var fileList = _patchList.Values.ToArray();
 
             for (int i = 0; i < fileList.Length; i++)
@@ -115,7 +115,7 @@ namespace LeagueScrambler
                 Console.Title = string.Format("Fetching files... {0} / {1}", i + 1, fileList.Length);
                 if (!_files.ContainsKey(fileList[i]))
                 {
-                    var file = manager.ReadFile(fileList[i], false, true);
+                    var file = manager.ReadFile(fileList[i], true);
                     if(file != null)
                         _files.Add(fileList[i], file);
                 }

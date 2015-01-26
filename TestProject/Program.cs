@@ -45,10 +45,10 @@ namespace TestProject
 
             manager.EndWriting();
 
-            File.WriteAllBytes(@"C:\Xin.dds", xin);
-            File.WriteAllBytes(@"C:\Lux.dds", lux);
-            File.WriteAllBytes(@"C:\XinOriginal.dds", xinOriginal);
-            File.WriteAllBytes(@"C:\LuxOriginal.dds", luxOriginal);
+            File.WriteAllBytes(@"C:\Xin.dds", xin.Uncompress());
+            File.WriteAllBytes(@"C:\Lux.dds", lux.Uncompress());
+            File.WriteAllBytes(@"C:\XinOriginal.dds", xinOriginal.Uncompress());
+            File.WriteAllBytes(@"C:\LuxOriginal.dds", luxOriginal.Uncompress());
         }
     }
 }

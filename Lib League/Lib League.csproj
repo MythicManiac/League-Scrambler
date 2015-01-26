@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Character.cs" />
     <Compile Include="Files\Archive.cs" />
+    <Compile Include="Files\ArchiveFile.cs" />
     <Compile Include="Files\ArchiveReader.cs" />
     <Compile Include="Files\ArchiveState.cs" />
     <Compile Include="Files\ArchiveStateReader.cs" />

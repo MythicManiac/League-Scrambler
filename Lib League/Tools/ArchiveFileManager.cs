@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using Ionic.Zlib;
 using League.Files;
 using League.Files.Manifest;
 using League.Utils;
@@ -99,12 +98,12 @@ namespace League.Tools
             }
         }
 
-        public byte[] ReadFile(string filepath, bool uncompress)
+        public ArchiveFile ReadFile(string filepath)
         {
-            return ReadFile(filepath, uncompress, false);
+            return ReadFile(filepath, false);
         }
 
-        public byte[] ReadFile(string filepath, bool uncompress, bool surpressErrors)
+        public ArchiveFile ReadFile(string filepath, bool surpressErrors)
         {
             if (!_indexTable.ContainsKey(filepath))
             {
@@ -125,12 +124,13 @@ namespace League.Tools
 
             var archive = _fileTable[filepath];
             var info = archive.Files[filepath];
-            var file = _reader.ReadData(archive, info.DataOffset, info.DataLength);
 
-            if (uncompress)
-                file = ZlibStream.UncompressBuffer(file);
+            var result = new ArchiveFile();
+            result.Data = _reader.ReadData(archive, info.DataOffset, info.DataLength);
+            result.CompressedSize = _indexTable[filepath].CompressedSize;
+            result.UncompressedSize = _indexTable[filepath].DecompressedSize;
 
-            return file;
+            return result;
         }
 
         public void BeginWriting()
@@ -146,12 +146,12 @@ namespace League.Tools
             _writing = true;
         }
 
-        public void WriteFile(string filepath, bool compress, byte[] data)
+        public void WriteFile(string filepath, bool compress, ArchiveFile file)
         {
-            WriteFile(filepath, compress, data, false);
+            WriteFile(filepath, compress, file, false);
         }
 
-        public void WriteFile(string filepath, bool compress, byte[] data, bool surpressErrors)
+        public void WriteFile(string filepath, bool compress, ArchiveFile file, bool surpressErrors)
         {
             if (!_writing)
                 throw new Exception("Must call BeginWriting() before calling WriteFile()");
@@ -176,27 +176,6 @@ namespace League.Tools
 
             var archive = _fileTable[filepath];
 
-            // Handle compression and uncompression
-            var uncomporessedLength = 0U;
-            var compressedLength = 0U;
-
-            if ((data[0] == 0x78 && (data[1] == 0x01 || data[1] == 0x9C || data[1] == 0xDA)))
-            {
-                compressedLength = (uint)data.Length;
-                var temp = ZlibStream.UncompressBuffer(data);
-                uncomporessedLength = (uint)temp.Length;
-                if (!compress)
-                    data = temp;
-            }
-            else
-            {
-                uncomporessedLength = (uint)data.Length;
-                var temp = ZlibStream.CompressBuffer(data);
-                compressedLength = (uint)temp.Length;
-                if (compress)
-                    data = temp;
-            }
-
             // Handle archive state creation
             if(!_archiveStates.ContainsKey(archive.FilePath))
             {
@@ -210,7 +189,7 @@ namespace League.Tools
             if (!_bufferTable.ContainsKey(archive.FilePath))
                 _bufferTable[archive.FilePath] = new ArchiveWriteBuffer();
 
-            _bufferTable[archive.FilePath].WriteData(filepath, data);
+            _bufferTable[archive.FilePath].WriteData(filepath, file.Data);
 
             // Copy file info to the list of originals and then modify it
             if (!_archiveStates[archive.FilePath].OriginalValues.ContainsKey(filepath))
@@ -219,8 +198,8 @@ namespace League.Tools
             }
 
             // Handle manifest changes
-            _indexTable[filepath].Descriptor.CompressedSize = compressedLength;
-            _indexTable[filepath].Descriptor.DecompressedSize = uncomporessedLength;
+            _indexTable[filepath].Descriptor.CompressedSize = file.CompressedSize;
+            _indexTable[filepath].Descriptor.DecompressedSize = file.UncompressedSize;
         }
 
         public void EndWriting()
