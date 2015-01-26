@@ -30,7 +30,7 @@ namespace TestProject
             var manager = new ArchiveFileManager(LeagueLocations.GetLeaguePath());
             var search = new ManifestSearch(manager);
             
-            CompileAssetLists(search);
+            //CompileAssetLists(search);
         }
 
         public static void CompileAssetLists(ManifestSearch search)
@@ -38,6 +38,10 @@ namespace TestProject
             new SkinGroupWriter().Write(@"C:\SkinGroups.dat", FindSkinGroups(search));
             var writer = new PathListWriter();
             writer.Write(@"C:\LoadScreenPaths.dat", search.FindLoadingScreens());
+            writer.Write(@"C:\AbilityIconPaths.dat", search.FindAbilityIcons());
+            writer.Write(@"C:\SquareIconPaths.dat", search.FindSquareIcons());
+            writer.Write(@"C:\CircleIconPaths.dat", search.FindCircleIcons());
+            writer.Write(@"C:\ItemIconPaths.dat", search.FindItemIcons());
         }
 
         public static List<SkinGroup> FindSkinGroups(ManifestSearch search)
