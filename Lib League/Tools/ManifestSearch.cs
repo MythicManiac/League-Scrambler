@@ -19,6 +19,18 @@ namespace League.Tools
             _manifest = manager.Manifest;
         }
 
+        public string[] FindLoadingScreens()
+        {
+            var result = new List<string>();
+            var files = _manifest.Root.GetChildDirectoryOrNull("DATA").GetChildDirectoryOrNull("Characters").GetAllSubfiles().ToArray();
+            for(int i = 0; i < files.Length; i++)
+            {
+                if (files[i].Name.ToLower().Contains("loadscreen") && files[i].Name.Split('.').Last() == "dds")
+                    result.Add(files[i].FullName);
+            }
+            return result.ToArray();
+        }
+
         public Character[] FindCharacters(string[] types)
         {
             var skins = new List<Character>();

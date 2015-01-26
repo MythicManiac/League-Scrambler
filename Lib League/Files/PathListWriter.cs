@@ -15,6 +15,11 @@ namespace League.Files
 
         public PathListWriter() { }
 
+        public void Write(string filename, string[] paths)
+        {
+            Write(filename, paths.ToList());
+        }
+
         public void Write(string filename, List<string> paths)
         {
             _paths = paths;

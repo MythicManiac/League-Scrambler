@@ -29,11 +29,23 @@ namespace TestProject
         {
             var manager = new ArchiveFileManager(LeagueLocations.GetLeaguePath());
             var search = new ManifestSearch(manager);
+            
+            CompileAssetLists(search);
+        }
 
+        public static void CompileAssetLists(ManifestSearch search)
+        {
+            new SkinGroupWriter().Write(@"C:\SkinGroups.dat", FindSkinGroups(search));
+            var writer = new PathListWriter();
+            writer.Write(@"C:\LoadScreenPaths.dat", search.FindLoadingScreens());
+        }
+
+        public static List<SkinGroup> FindSkinGroups(ManifestSearch search)
+        {
             var types = new string[5] { "Champion", "Minion", "Monster", "Ward", "Special" };
             var characters = search.FindCharacters(types);
 
-            var table = new Table(4);
+            var groups = new List<SkinGroup>();
 
             for (int i = 0; i < characters.Length; i++)
             {
@@ -41,11 +53,24 @@ namespace TestProject
 
                 for (int j = 0; j < characters[i].Skins.Length; j++)
                 {
-                    table.AddRow(characters[i].Skins[j].BlndFile, characters[i].Skins[j].DdsFile, characters[i].Skins[j].SklFile, characters[i].Skins[j].SknFile);
+                    var flag = false;
+                    for (int k = 0; k < groups.Count; k++)
+                    {
+                        if (groups[k].Common(characters[i].Skins[j]))
+                        {
+                            if (!groups[k].Equals(characters[i].Skins[j]))
+                                groups[k].Skins.Add(characters[i].Skins[j]);
+
+                            flag = true;
+                            break;
+                        }
+                    }
+                    if (!flag)
+                        groups.Add(new SkinGroup(characters[i].Skins[j]));
                 }
             }
 
-            table.Dump();
+            return groups;
         }
     }
 }
