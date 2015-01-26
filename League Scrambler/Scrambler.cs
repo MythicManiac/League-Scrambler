@@ -40,13 +40,17 @@ namespace LeagueScrambler
             _changes.Add(new ScramblerChangeArray(pr.Read(Properties.Resources.ItemIconPaths)));
         }
 
-        public void Scramble(Settings settings)
+        public void Scramble(Settings settings, int seed)
         {
+            Console.WriteLine(new string('#', 50));
+            Console.WriteLine("Scrambling files with seed {0}", seed);
+            Console.WriteLine(new string('#', 50));
+            var random = new Random(seed);
             for (int i = 0; i < _changes.Count; i++)
             {
-                _changes[i].Scrambled = ScrambleArray(_changes[i].Original);
+                _changes[i].Scrambled = ScrambleArray(_changes[i].Original, random);
             }
-            _skinTableScrambled = ScrambleArray(_skinTable);
+            _skinTableScrambled = ScrambleArray(_skinTable, random);
 
             _patchList = new Dictionary<string, string>();
 
@@ -84,7 +88,7 @@ namespace LeagueScrambler
             }
         }
 
-        private T[] ScrambleArray<T>(T[] input)
+        private T[] ScrambleArray<T>(T[] input, Random random)
         {
             // Generate an index table we can remove stuff out of
             List<int> freeIndexes = new List<int>();
@@ -95,7 +99,6 @@ namespace LeagueScrambler
 
             // Fill and scramble the second table
             var result = new T[input.Length];
-            Random random = new Random();
             for (int i = 0; i < result.Length; i++)
             {
                 int index = random.Next(0, freeIndexes.Count);

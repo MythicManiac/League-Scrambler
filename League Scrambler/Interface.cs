@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using Microsoft.VisualBasic;
 using League.Utils;
 using League.Tools;
 
@@ -123,8 +124,18 @@ namespace LeagueScrambler
         {
             Console.Clear();
             Console.WriteLine("Scrambling files");
-            Scrambler scrambler = new Scrambler(_leaguePath);
-            scrambler.Scramble(_settings);
+            var scrambler = new Scrambler(_leaguePath);
+
+            var ticks = DateTime.Now.Ticks % Int32.MaxValue;
+            var seed = Convert.ToInt32(ticks);
+            
+            var success = false;
+            while (!success)
+            {
+                success = int.TryParse(Interaction.InputBox("Random seed:", "Enter a valid seed (Numbers only)", seed.ToString()), out seed);
+            }
+
+            scrambler.Scramble(_settings, seed);
             scrambler.Patch(_fileManager);
             Console.Title = "League Scrambler";
             Console.WriteLine("Done");

@@ -45,7 +45,11 @@ namespace LeagueScrambler
                 }
             }
 
-            Console.SetOut(new Log(LeagueLocations.GetModPath(leaguePath) + "Log.txt"));
+            var log = new Log(LeagueLocations.GetModPath(leaguePath) + "Log.txt");
+            log.LogLine(new string('#', 100));
+            log.LogLine("NEW SESSION STARTED");
+            log.LogLine(new string('#', 100));
+            Console.SetOut(log);
 
             // Launch the interface
             Interface ui = new Interface(leaguePath);

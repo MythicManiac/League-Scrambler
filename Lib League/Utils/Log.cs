@@ -18,7 +18,17 @@ namespace League.Utils
         {
             Filename = filename;
             _originalWriter = Console.Out;
-            _logWriter = File.Open(filename, FileMode.Create, FileAccess.Write);
+            _logWriter = File.Open(filename, FileMode.OpenOrCreate, FileAccess.Write);
+            _logWriter.Seek(0, SeekOrigin.End);
+        }
+
+        public void LogLine(string format, params object[] args)
+        {
+            string value = string.Format(format, args);
+
+            byte[] bytes = ASCIIEncoding.ASCII.GetBytes(value + Environment.NewLine);
+            _logWriter.Write(bytes, 0, bytes.Length);
+            _logWriter.Flush();
         }
 
         public override Encoding Encoding
@@ -110,9 +120,9 @@ namespace League.Utils
             _logWriter.Flush();
         }
 
-        public override void WriteLine(string format, params object[] arg)
+        public override void WriteLine(string format, params object[] args)
         {
-            string value = string.Format(format, arg);
+            string value = string.Format(format, args);
             _originalWriter.WriteLine(value);
 
             byte[] bytes = ASCIIEncoding.ASCII.GetBytes(value + Environment.NewLine);
