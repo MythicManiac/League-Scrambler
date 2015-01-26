@@ -51,7 +51,6 @@
     <Compile Include="Files\ArchiveStateWriter.cs" />
     <Compile Include="Files\ArchiveWriteBuffer.cs" />
     <Compile Include="Files\ArchiveWriter.cs" />
-    <Compile Include="Files\OldArchive.cs" />
     <Compile Include="Files\Inibin.cs" />
     <Compile Include="Files\Manifest\Classes.cs" />
     <Compile Include="Files\Manifest\ReleaseManifest.cs" />
@@ -59,7 +58,6 @@
     <Compile Include="Files\Manifest\ReleaseManifestWriter.cs" />
     <Compile Include="Files\PathListReader.cs" />
     <Compile Include="Files\PathListWriter.cs" />
-    <Compile Include="Files\RiotFile.cs" />
     <Compile Include="Hashes\CharacterHashes.cs" />
     <Compile Include="Hashes\HashFunctions.cs" />
     <Compile Include="Hashes\SkinHashes.cs" />
@@ -69,10 +67,10 @@
     <Compile Include="Files\SkinGroupWriter.cs" />
     <Compile Include="Tools\ArchiveFileManager.cs" />
     <Compile Include="Tools\BackupManager.cs" />
+    <Compile Include="Tools\ManifestSearch.cs" />
     <Compile Include="Utils\LeagueLocations.cs" />
     <Compile Include="Utils\Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils\ObjectList.cs" />
     <Compile Include="Utils\Table.cs" />
   </ItemGroup>
   <ItemGroup />

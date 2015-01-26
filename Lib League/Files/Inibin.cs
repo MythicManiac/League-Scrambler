@@ -10,45 +10,35 @@ namespace League.Files
 {
     public class Inibin
     {
-        public string InibinPath { get; private set; }
-        public string RootPath { get; private set; }
-        public byte Version { get; private set; }
-        public Dictionary<uint, object> Data { get; private set; }
+        public string FilePath { get; private set; }
 
+        public byte Version { get; private set; }
+        public Dictionary<uint, object> Content { get; private set; }
+
+        private byte[] _data;
         private uint _contentLength;
         private BitArray _format;
-        private BinaryReader _stream;
+        private BinaryReader _reader;
 
-        public Inibin(string path, string rootPath = "")
+        public Inibin(byte[] data, string filepath)
         {
-            if (Path.GetExtension(path) != ".inibin")
-                throw new Exception("Must provide a path to an .inibin file");
-
-            InibinPath = path;
-            RootPath = rootPath;
-        }
-
-        public string LeaguePath
-        {
-            get
-            {
-                return InibinPath.Replace(RootPath, "").Replace('\\', '/');
-            }
+            _data = data;
+            FilePath = filepath;
         }
 
         public bool Read()
         {
-            Data = new Dictionary<uint, object>();
-            FileStream fileStream = File.OpenRead(InibinPath);
-            _stream = new BinaryReader(fileStream);
+            Content = new Dictionary<uint, object>();
+            _reader = new BinaryReader(new MemoryStream(_data));
+            _reader.BaseStream.Seek(0, SeekOrigin.Begin);
 
-            Version = _stream.ReadByte();
-            _contentLength = _stream.ReadUInt16();
+            Version = _reader.ReadByte();
+            _contentLength = _reader.ReadUInt16();
 
             if (Version != 2)
                 throw new InvalidDataException("Wrong Inibin version");
 
-            _format = new BitArray(new byte[] { _stream.ReadByte(), _stream.ReadByte() });
+            _format = new BitArray(new byte[] { _reader.ReadByte(), _reader.ReadByte() });
 
             for (int i = 0; i < _format.Length; i++)
             {
@@ -62,17 +52,9 @@ namespace League.Files
             return true;
         }
 
-        public void ListData()
-        {
-            foreach (KeyValuePair<uint, object> item in Data)
-            {
-                Console.WriteLine(string.Format("{0} - {1}", item.Key, item.Value));
-            }
-        }
-
         private bool ReadSegment(int type, bool skipErrors = true)
         {
-            int count = _stream.ReadUInt16();
+            int count = _reader.ReadUInt16();
             uint[] keys = GetKeys(count);
             dynamic[] values = new dynamic[count];
 
@@ -80,41 +62,41 @@ namespace League.Files
             {
                 for (int i = 0; i < count; i++)
                 {
-                    values[i] = _stream.ReadUInt32();
+                    values[i] = _reader.ReadUInt32();
                 }
             }
             else if (type == 1) // Floats
             {
                 for (int i = 0; i < count; i++)
                 {
-                    values[i] = _stream.ReadSingle();
+                    values[i] = _reader.ReadSingle();
                 }
             }
             else if (type == 2) // One byte floats - Divide the byte by 10
             {
                 for (int i = 0; i < count; i++)
                 {
-                    values[i] = (float)(_stream.ReadByte() * 0.1f);
+                    values[i] = (float)(_reader.ReadByte() * 0.1f);
                 }
             }
             else if (type == 3) // Unsigned shorts
             {
                 for (int i = 0; i < count; i++)
                 {
-                    values[i] = _stream.ReadUInt16();
+                    values[i] = _reader.ReadUInt16();
                 }
             }
             else if (type == 4) // Bytes
             {
                 for (int i = 0; i < count; i++)
                 {
-                    values[i] = _stream.ReadByte();
+                    values[i] = _reader.ReadByte();
                 }
             }
             else if (type == 5) // Booleans
             {
                 byte[] bytes = new byte[(int)Math.Ceiling((decimal)count / 8)];
-                _stream.BaseStream.Read(bytes, 0, bytes.Length);
+                _reader.BaseStream.Read(bytes, 0, bytes.Length);
                 BitArray bits = new BitArray(bytes);
 
                 for (int i = 0; i < count; i++)
@@ -128,7 +110,7 @@ namespace League.Files
 
                 for (int i = 0; i < count; i++)
                 {
-                    _stream.BaseStream.Read(bytes, 0, bytes.Length);
+                    _reader.BaseStream.Read(bytes, 0, bytes.Length);
                     values[i] = BitConverter.ToUInt32(new byte[4] { 0, bytes[0], bytes[1], bytes[2] }, 0);
                 }
             }
@@ -141,9 +123,9 @@ namespace League.Files
                 for (int i = 0; i < count; i++)
                 {
                     // 4 + 4 + 4 = 12
-                    _stream.ReadInt32();
-                    _stream.ReadInt32();
-                    _stream.ReadInt32();
+                    _reader.ReadInt32();
+                    _reader.ReadInt32();
+                    _reader.ReadInt32();
                     values[i] = "NotYetImplemented";
                 }
             }
@@ -151,21 +133,21 @@ namespace League.Files
             {
                 for (int i = 0; i < count; i++)
                 {
-                    values[i] = _stream.ReadUInt16();
+                    values[i] = _reader.ReadUInt16();
                 }
             }
             else if (type == 9) // 2x float ??????
             {
                 for (int i = 0; i < count; i++)
                 {
-                    values[i] = _stream.ReadUInt64();
+                    values[i] = _reader.ReadUInt64();
                 }
             }
             else if (type == 10) // 4x bytes * 0.1f ?????
             {
                 for (int i = 0; i < count; i++)
                 {
-                    values[i] = _stream.ReadUInt32();
+                    values[i] = _reader.ReadUInt32();
                 }
             }
             else if (type == 11) // 4x float ?????
@@ -177,18 +159,18 @@ namespace League.Files
                 for (int i = 0; i < count; i++)
                 {
                     // 8 + 8 = 16
-                    _stream.ReadUInt64();
-                    _stream.ReadUInt64();
+                    _reader.ReadUInt64();
+                    _reader.ReadUInt64();
                     values[i] = "NotYetImplemented";
                 }
             }
             else if (type == 12) // Unsigned short - string dictionary offsets
             {
-                long stringListOffset = _stream.BaseStream.Length - _contentLength;
+                long stringListOffset = _reader.BaseStream.Length - _contentLength;
 
                 for (int i = 0; i < count; i++)
                 {
-                    int offset = _stream.ReadInt16();
+                    int offset = _reader.ReadInt16();
                     values[i] = ReadString(stringListOffset + offset);
                 }
             }
@@ -197,13 +179,13 @@ namespace League.Files
                 if(!skipErrors)
                     throw new Exception("Unknown segment type");
 
-                Console.WriteLine(string.Format("Unknown segment type found in file {0}", LeaguePath));
+                Console.WriteLine(string.Format("Unknown segment type found in file {0}", FilePath));
                 return false;
             }
 
             for(int i = 0; i < keys.Length; i++)
             {
-                Data.Add(keys[i], values[i]);
+                Content.Add(keys[i], values[i]);
             }
 
             return true;
@@ -215,7 +197,7 @@ namespace League.Files
 
             for(int i = 0; i < result.Length; i++)
             {
-                result[i] = _stream.ReadUInt32();
+                result[i] = _reader.ReadUInt32();
             }
 
             return result;
@@ -223,18 +205,18 @@ namespace League.Files
 
         private string ReadString(long offset)
         {
-            long oldPosition = _stream.BaseStream.Position;
-            _stream.BaseStream.Seek(offset, SeekOrigin.Begin);
+            long oldPosition = _reader.BaseStream.Position;
+            _reader.BaseStream.Seek(offset, SeekOrigin.Begin);
 
             string result = "";
-            int character = _stream.ReadByte();
+            int character = _reader.ReadByte();
             while(character > 0)
             {
                 result += (char)character;
-                character = _stream.ReadByte();
+                character = _reader.ReadByte();
             }
 
-            _stream.BaseStream.Seek(oldPosition, SeekOrigin.Begin);
+            _reader.BaseStream.Seek(oldPosition, SeekOrigin.Begin);
 
             return result;
         }

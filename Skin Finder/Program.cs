@@ -102,7 +102,7 @@ namespace Skin_Finder
             {
                 if (Path.GetExtension(files[i]) == extension)
                 {
-                    Character character = new Character(files[i], @"C:\Users\Mythic\Desktop\LolFiles\");
+                    Character character = null; //new Character(files[i], @"C:\Users\Mythic\Desktop\LolFiles\");
                     if (!character.Type.Contains("Structure"))
                         characterFiles.Add(character);
                     if (character.Type.Contains("Champion") ||

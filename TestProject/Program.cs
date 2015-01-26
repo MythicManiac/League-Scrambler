@@ -8,7 +8,7 @@ using System.IO;
 using League.Utils;
 using League.Files;
 using League.Tools;
-using Ionic.Zlib;
+using League;
 
 namespace TestProject
 {
@@ -28,27 +28,24 @@ namespace TestProject
         public static void Run()
         {
             var manager = new ArchiveFileManager(LeagueLocations.GetLeaguePath());
+            var search = new ManifestSearch(manager);
 
-            var xinOriginal = manager.ReadFile("DATA/Characters/XinZhao/XinZhaoLoadScreen.dds", true);
-            var luxOriginal = manager.ReadFile("DATA/Characters/Lux/LuxLoadScreen.dds", true);
+            var types = new string[5] { "Champion", "Minion", "Monster", "Ward", "Special" };
+            var characters = search.FindCharacters(types);
 
-            if (manager.ArchivesModified)
-                manager.Revert();
+            var table = new Table(4);
 
-            var xin = manager.ReadFile("DATA/Characters/XinZhao/XinZhaoLoadScreen.dds", true);
-            var lux = manager.ReadFile("DATA/Characters/Lux/LuxLoadScreen.dds", true);
+            for (int i = 0; i < characters.Length; i++)
+            {
+                characters[i].LoadSkins(search);
 
-            manager.BeginWriting();
+                for (int j = 0; j < characters[i].Skins.Length; j++)
+                {
+                    table.AddRow(characters[i].Skins[j].BlndFile, characters[i].Skins[j].DdsFile, characters[i].Skins[j].SklFile, characters[i].Skins[j].SknFile);
+                }
+            }
 
-            manager.WriteFile("DATA/Characters/XinZhao/XinZhaoLoadScreen.dds", true, lux);
-            manager.WriteFile("DATA/Characters/Lux/LuxLoadScreen.dds", true, xin);
-
-            manager.EndWriting();
-
-            File.WriteAllBytes(@"C:\Xin.dds", xin.Uncompress());
-            File.WriteAllBytes(@"C:\Lux.dds", lux.Uncompress());
-            File.WriteAllBytes(@"C:\XinOriginal.dds", xinOriginal.Uncompress());
-            File.WriteAllBytes(@"C:\LuxOriginal.dds", luxOriginal.Uncompress());
+            table.Dump();
         }
     }
 }

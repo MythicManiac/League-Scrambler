@@ -12,7 +12,7 @@ namespace League.Tools
 {
     public class ArchiveFileManager
     {
-        private ReleaseManifest _manifest;
+        public ReleaseManifest Manifest { get; private set; }
 
         private Dictionary<string, ReleaseManifestFileEntry> _indexTable;
         private Dictionary<string, ArchiveWriteBuffer> _bufferTable;
@@ -50,13 +50,13 @@ namespace League.Tools
         private void LoadManifestPaths()
         {
             Console.WriteLine("Loading file info...");
-            _manifest = ReleaseManifest.LoadFromFile(LeagueLocations.GetManifestPath(_leaguePath));
+            Manifest = ReleaseManifest.LoadFromFile(LeagueLocations.GetManifestPath(_leaguePath));
             _indexTable = new Dictionary<string, ReleaseManifestFileEntry>();
 
-            for(int i = 0; i < _manifest.Files.Length; i++)
+            for (int i = 0; i < Manifest.Files.Length; i++)
             {
-                if(_manifest.Files[i].EntityType != 4)
-                    _indexTable[_manifest.Files[i].FullName] = _manifest.Files[i];
+                if (Manifest.Files[i].EntityType != 4)
+                    _indexTable[Manifest.Files[i].FullName] = Manifest.Files[i];
             }
         }
 
@@ -248,7 +248,7 @@ namespace League.Tools
 
             var writer = new ArchiveStateWriter();
             writer.WriteArchiveStates(_archiveStates.Values.ToArray(), LeagueLocations.GetArchiveStatePath(_leaguePath));
-            _manifest.SaveChanges();
+            Manifest.SaveChanges();
         }
 
         public void Revert()
@@ -278,7 +278,7 @@ namespace League.Tools
 
             // Clear local variables and save them
             _archiveStates = new Dictionary<string, ArchiveState>();
-            _manifest = ReleaseManifest.LoadFromFile(LeagueLocations.GetManifestPath(_leaguePath));
+            Manifest = ReleaseManifest.LoadFromFile(LeagueLocations.GetManifestPath(_leaguePath));
             LoadManifestPaths();
             WriteStateInfo();
 
@@ -294,7 +294,25 @@ namespace League.Tools
 
         public ReleaseManifestFileEntry[] GetAllFileEntries()
         {
-            return _manifest.Files;
+            return Manifest.Files;
+        }
+
+        public ReleaseManifestFileEntry[] GetAllFileEntries(string startingFolder)
+        {
+            if (startingFolder.Last() == '/')
+                startingFolder = startingFolder.Remove(startingFolder.Length - 1, 1);
+
+            var dirnames = startingFolder.Split('/');
+            var directory = Manifest.Root.GetChildDirectoryOrNull(dirnames[0]);
+            for (int i = 1; i < dirnames.Length; i++)
+            {
+                directory = directory.GetChildDirectoryOrNull(dirnames[i]);
+            }
+
+            if (directory == null)
+                throw new Exception(string.Format("Couldn't find folder {0} in the releasemanifest", startingFolder));
+
+            return directory.GetAllSubfiles().ToArray();
         }
     }
 }

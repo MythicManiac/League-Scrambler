@@ -68,7 +68,7 @@ namespace League.Files.Manifest
         public uint FileStart { get { return Descriptor.FileStart; } }
         public uint FileCount { get { return Descriptor.FileCount; } }
 
-        public ReleaseManifestFileEntry GetChildFileOrnull(string childName)
+        public ReleaseManifestFileEntry GetChildFileOrNull(string childName)
         {
             for (int i = 0; i < Files.Count; i++)
             {
@@ -88,6 +88,16 @@ namespace League.Files.Manifest
             }
 
             return null;
+        }
+
+        public IEnumerable<ReleaseManifestFileEntry> GetAllSubfiles()
+        {
+            IEnumerable<ReleaseManifestFileEntry> result = Files;
+            for(int i = 0; i < Directories.Count; i++)
+            {
+                result = result.Concat(Directories[i].GetAllSubfiles());
+            }
+            return result;
         }
     }
 
