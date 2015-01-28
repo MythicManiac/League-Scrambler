@@ -29,7 +29,7 @@ namespace TestProject
         {
             var manager = new ArchiveFileManager(LeagueLocations.GetLeaguePath());
             var search = new ManifestSearch(manager);
-            
+
             //CompileAssetLists(search);
         }
 
@@ -47,7 +47,7 @@ namespace TestProject
         public static List<SkinGroup> FindSkinGroups(ManifestSearch search)
         {
             var types = new string[5] { "Champion", "Minion", "Monster", "Ward", "Special" };
-            var characters = search.FindCharacters(types);
+            var characters = search.FindCharacters(types, false);
 
             var groups = new List<SkinGroup>();
 

@@ -58,6 +58,28 @@ namespace League
             }
         }
 
+        public string SquareIcon
+        {
+            get
+            {
+                if (Inibin.Content.ContainsKey(CharacterHashes.SquareIconDds))
+                    return (string)Inibin.Content[CharacterHashes.SquareIconDds];
+
+                return null;
+            }
+        }
+
+        public string CircleIcon
+        {
+            get
+            {
+                if (Inibin.Content.ContainsKey(CharacterHashes.CircleIconDds))
+                    return (string)Inibin.Content[CharacterHashes.CircleIconDds];
+
+                return null;
+            }
+        }
+
         private int SkinCount
         {
             get

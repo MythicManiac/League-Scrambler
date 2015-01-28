@@ -45,26 +45,46 @@ namespace League.Tools
 
         public string[] FindSquareIcons()
         {
-            var result = new List<string>();
-            var files = _manifest.Root.GetChildDirectoryOrNull("DATA").GetChildDirectoryOrNull("Characters").GetAllSubfiles().ToArray();
-            for (int i = 0; i < files.Length; i++)
+            var characters = FindCharacters(new string[0], true);
+            var icons = new List<string>();
+
+            for (int i = 0; i < characters.Length; i++)
             {
-                if (files[i].Name.ToLower().Contains("square") && files[i].Name.Split('.').Last() == "dds")
-                    result.Add(files[i].FullName);
+                var start = characters[i].Inibin.FilePath.Substring(0, characters[i].Inibin.FilePath.LastIndexOf('/'));
+                var icon = characters[i].SquareIcon;
+
+                if (icon != null)
+                {
+                    var path = FindClosestPath(icon, start, "DATA");
+
+                    if (path != null)
+                        icons.Add(path);
+                }
             }
-            return result.ToArray();
+
+            return icons.ToArray();
         }
 
         public string[] FindCircleIcons()
         {
-            var result = new List<string>();
-            var files = _manifest.Root.GetChildDirectoryOrNull("DATA").GetChildDirectoryOrNull("Characters").GetAllSubfiles().ToArray();
-            for (int i = 0; i < files.Length; i++)
+            var characters = FindCharacters(new string[0], true);
+            var icons = new List<string>();
+
+            for (int i = 0; i < characters.Length; i++)
             {
-                if (files[i].Name.ToLower().Contains("circle") && files[i].Name.Split('.').Last() == "dds")
-                    result.Add(files[i].FullName);
+                var start = characters[i].Inibin.FilePath.Substring(0, characters[i].Inibin.FilePath.LastIndexOf('/'));
+                var icon = characters[i].CircleIcon;
+
+                if (icon != null)
+                {
+                    var path = FindClosestPath(icon, start, "DATA");
+
+                    if (path != null)
+                        icons.Add(path);
+                }
             }
-            return result.ToArray();
+
+            return icons.ToArray();
         }
 
         public string[] FindItemIcons()
@@ -79,7 +99,7 @@ namespace League.Tools
             return result.ToArray();
         }
 
-        public Character[] FindCharacters(string[] types)
+        public Character[] FindCharacters(string[] types, bool all = false)
         {
             var skins = new List<Character>();
             var directories = _manifest.Root.GetChildDirectoryOrNull("DATA").GetChildDirectoryOrNull("Characters").Directories.ToArray();
@@ -96,7 +116,7 @@ namespace League.Tools
 
                 var inibin = new Character(new Inibin(_manager.ReadFile(character.FullName).Uncompress(), character.FullName));
 
-                var flag = false;
+                var flag = all;
                 for (int j = 0; j < types.Length; j++)
                 {
                     if (inibin.Type.ToLower().Contains(types[j].ToLower()))
@@ -135,6 +155,9 @@ namespace League.Tools
 
         public string FindClosestPath(string filename, string start, string stop)
         {
+            if (string.IsNullOrEmpty(filename))
+                return null;
+
             var file = FindClosest(filename, start, stop);
 
             if (file == null)
