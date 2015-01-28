@@ -2,7 +2,7 @@
 
 ## Download
 
-Downloads can be found in the releases tab, or you can download the newset version [from here.](https://github.com/MythicManiac/League-of-Legends/releases/download/v1.0/League.Scrambler.v1.0.zip)
+Downloads can be found in the releases tab, or you can download the newest version [from here.](https://github.com/MythicManiac/League-of-Legends/releases/download/v1.0.1/League.Scrambler.v1.0.1.zip)
 
 ## Usage
 
@@ -67,7 +67,7 @@ Another thing that might be using your files is the `LoLPatcher.exe`, especially
 
 If you still face the error after closing those two processes, quit your League of Legends completely and kill any related processes.
 
-If nothing above helps you to get the scrambler working, feel free to start an issue here at github. Make sure to post your error from the log, though!
+If nothing above helps you to get the scrambler working, feel free to start an issue here at github. Make sure to post your error from the log, though! (Logfile location is `League of Legends\Mythic\Log.txt`)
 
 ## General information
 

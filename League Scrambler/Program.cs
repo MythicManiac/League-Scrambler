@@ -45,6 +45,9 @@ namespace LeagueScrambler
                 }
             }
 
+            if (!Directory.Exists(LeagueLocations.GetModPath(leaguePath)))
+                Directory.CreateDirectory(LeagueLocations.GetModPath(leaguePath));
+
             var log = new Log(LeagueLocations.GetModPath(leaguePath) + "Log.txt");
             log.LogLine(new string('#', 100));
             log.LogLine("NEW SESSION STARTED");
