@@ -28,6 +28,10 @@ namespace LeagueScrambler
             {
                 return ((SettingsOption)Options[index]).Enabled;
             }
+            set
+            {
+                ((SettingsOption)Options[index]).Enabled = value;
+            }
         }
 
         private void ToggleModels()

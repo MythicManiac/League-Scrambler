@@ -45,12 +45,58 @@ namespace LeagueScrambler
             Console.WriteLine(new string('#', 50));
             Console.WriteLine("Scrambling files with seed {0}", seed);
             Console.WriteLine(new string('#', 50));
-            var random = new Random(seed);
-            for (int i = 0; i < _changes.Count; i++)
+
+            if (seed == 1337) // League of Draven
             {
-                _changes[i].Scrambled = ScrambleArray(_changes[i].Original, random);
+                var skindraven = _skinTable[0];
+                for (int i = 0; i < _skinTable.Length; i++)
+                {
+                    for (int j = 0; j < _skinTable[i].Skins.Count; j++)
+                    {
+                        if (_skinTable[i].Skins[j].BlndFile.Contains("Draven/Skins/Base/Draven_Base.blnd"))
+                        {
+                            skindraven = _skinTable[i];
+                            i = _skinTable.Length;
+                            break;
+                        }
+                    }
+                }
+                _skinTableScrambled = new SkinGroup[_skinTable.Length];
+                for (int i = 0; i < _skinTable.Length; i++)
+                {
+                    _skinTableScrambled[i] = skindraven;
+                }
+
+                settings[0] = true;
+
+                var draven = "";
+                for (int i = 0; i < _changes.Count; i++)
+                {
+                    settings[i + 1] = true;
+                    for (int j = 0; j < _changes[i].Original.Length; j++)
+                    {
+                        if (_changes[i].Original[j].ToLower().Contains("draven"))
+                        {
+                            draven = _changes[i].Original[j];
+                            break;
+                        }
+                    }
+                    _changes[i].Scrambled = new string[_changes[i].Original.Length];
+                    for(int j = 0; j < _changes[i].Scrambled.Length; j++)
+                    {
+                        _changes[i].Scrambled[j] = draven;
+                    }
+                }
             }
-            _skinTableScrambled = ScrambleArray(_skinTable, random);
+            else // Regular
+            {
+                var random = new Random(seed);
+                for (int i = 0; i < _changes.Count; i++)
+                {
+                    _changes[i].Scrambled = ScrambleArray(_changes[i].Original, random);
+                }
+                _skinTableScrambled = ScrambleArray(_skinTable, random);
+            }
 
             _patchList = new Dictionary<string, string>();
 
@@ -113,6 +159,8 @@ namespace LeagueScrambler
             _files = new Dictionary<string, ArchiveFile>();
             var fileList = _patchList.Values.ToArray();
 
+            manager.BeginWriting();
+
             for (int i = 0; i < fileList.Length; i++)
             {
                 Console.Title = string.Format("Fetching files... {0} / {1}", i + 1, fileList.Length);
@@ -123,8 +171,6 @@ namespace LeagueScrambler
                         _files.Add(fileList[i], file);
                 }
             }
-
-            manager.BeginWriting();
 
             int position = 1;
             foreach (var kvp in _patchList)

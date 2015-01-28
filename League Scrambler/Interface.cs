@@ -35,7 +35,7 @@ namespace LeagueScrambler
             menu.Options.Add(new MenuOption("Scramble files", Scramble));
             menu.Options.Add(new MenuOption("Restore files (Work changes backwards)", Restore));
             menu.Options.Add(new MenuOption("Restore files from backup (Copy backed up files over the current ones)", RestoreBackup));
-            menu.Options.Add(new MenuOption("Options", OpenSettings));
+            menu.Options.Add(new MenuOption("Settings", OpenSettings));
             menu.Options.Add(new MenuOption("Exit", Exit));
             _menus.Add(menu);
 
@@ -48,7 +48,7 @@ namespace LeagueScrambler
             _menus.Add(menu);
 
             _menuId = 0;
-            _message = "";
+            _message = "Check the project page for updates at https://github.com/MythicManiac/League-of-Legends";
             _fileManager = new ArchiveFileManager(_leaguePath);
             _backupManager = new BackupManager(_leaguePath);
         }
@@ -139,8 +139,8 @@ namespace LeagueScrambler
             scrambler.Patch(_fileManager);
             Console.Title = "League Scrambler";
             Console.WriteLine("Done");
-            Console.WriteLine("Press any key to continue");
-            Console.ReadKey();
+            Console.WriteLine("Press enter to continue");
+            while ((int)Console.ReadKey().KeyChar != 13) { } // Avoid the write buffer from spamming options in the menu
         }
 
         public void Restore()

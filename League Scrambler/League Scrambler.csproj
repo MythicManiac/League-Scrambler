@@ -75,6 +75,7 @@
     <ProjectReference Include="..\Lib League\Lib League.csproj">
       <Project>{356f8a8b-cf38-4daa-8891-2bcdcb0daf46}</Project>
       <Name>Lib League</Name>
+      <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
