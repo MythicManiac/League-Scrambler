@@ -1,9 +1,9 @@
-Embed .dll files to resources.
+Embed .dll files to resources. -- To be done later
+Create an auto updater. -- To be done later
+
 Write proper code for the interface.
 Make ability icon search better.
 Make item icon search better.
 Add passive icon search.
-Make square icon search better.
-Make circle icon search better.
 Make it possible to provide your own random seed.
 Make Archive File Manager to be able to return all filepaths, not just the ones in the releasemanifest.

@@ -138,8 +138,7 @@ namespace League.Tools
             if (_writing)
                 throw new Exception("Must call EndWriting() before calling BeginWriting() again");
 
-            if (ArchivesModified)
-                Revert();
+            Revert();
 
             _bufferTable = new Dictionary<string, ArchiveWriteBuffer>();
 

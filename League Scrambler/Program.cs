@@ -52,9 +52,26 @@ namespace LeagueScrambler
             Console.SetOut(log);
 
             // Launch the interface
-            Interface ui = new Interface(leaguePath);
-            ui.Initialize();
-            ui.Run();
+
+            try
+            {
+                Interface ui = new Interface(leaguePath);
+                ui.Initialize();
+                ui.Run();
+            }
+            catch(Exception e)
+            {
+                log.LogLine(new string('#', 50));
+                log.LogLine("ERROR OCCURRED");
+                log.LogLine(new string('#', 50));
+                log.LogLine(e.Message);
+                log.LogLine(e.Source);
+                log.LogLine(e.StackTrace);
+                log.LogLine(new string('#', 50));
+                Console.WriteLine("An error has occurred and it has been logged. Please refer to the troubleshooting section found at https://github.com/MythicManiac/League-of-Legends");
+                Console.WriteLine("Press any key to exit...");
+                Console.ReadKey();
+            }
         }
     }
 }
