@@ -67,9 +67,9 @@ namespace LeagueScrambler
                 log.LogLine(new string('#', 50));
                 log.LogLine("ERROR OCCURRED");
                 log.LogLine(new string('#', 50));
-                log.LogLine(e.Message);
-                log.LogLine(e.Source);
-                log.LogLine(e.StackTrace);
+                Console.WriteLine(e.Message);
+                Console.WriteLine(e.Source);
+                Console.WriteLine(e.StackTrace);
                 log.LogLine(new string('#', 50));
                 Console.WriteLine("An error has occurred and it has been logged. Please refer to the troubleshooting section found at https://github.com/MythicManiac/League-of-Legends");
                 Console.WriteLine("Press any key to exit...");
