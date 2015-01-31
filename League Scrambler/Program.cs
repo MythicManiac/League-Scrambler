@@ -16,32 +16,43 @@ namespace LeagueScrambler
         {
             Console.Title = "League Scrambler";
 
-            // Search for League of Legends installation path from registry
-            string leaguePath = LeagueLocations.GetLeaguePath();
+            string leaguePath = null;
 
-            // Make sure the path is valid, if not, ask for user to select it manually. Keep repeating until user exits or selects a proper file.
-            while (string.IsNullOrEmpty(leaguePath) || !Directory.Exists(leaguePath))
+            if (File.Exists("leaguepath.txt"))
             {
-                MessageBox.Show("Couldn't automatically detect your League of Legends installation path, please select it manually.", "Error", MessageBoxButtons.OK);
-                OpenFileDialog dialog = new OpenFileDialog();
-                dialog.Title = "League of Legends Installation Path";
-                dialog.Filter = "Leagu of Legends Launcher|lol.launcher.exe";
-                dialog.FilterIndex = 0;
-                dialog.Multiselect = false;
-                dialog.AutoUpgradeEnabled = true;
-                DialogResult result = dialog.ShowDialog();
+                var bytes = File.ReadAllBytes("leaguepath.txt");
+                leaguePath = ASCIIEncoding.ASCII.GetString(bytes, 0, bytes.Length);
+            }
 
-                if(result == DialogResult.OK)
+            if (string.IsNullOrEmpty(leaguePath))
+            {
+                // Search for League of Legends installation path from registry
+                leaguePath = LeagueLocations.GetLeaguePath();
+
+                // Make sure the path is valid, if not, ask for user to select it manually. Keep repeating until user exits or selects a proper file.
+                while (string.IsNullOrEmpty(leaguePath) || !Directory.Exists(leaguePath))
                 {
-                    // We only want the directory name. Also add the backslash to keep it consistent with what we get from the registry automatically.
-                    leaguePath = Path.GetDirectoryName(dialog.FileName) + "\\";
-                }
-                else
-                {
-                    // Ask the user if he'd like to exit since he didn't select a file.
-                    result = MessageBox.Show("No file was selected, would you like to exit?", "Error", MessageBoxButtons.YesNo);
-                    if (result == DialogResult.Yes)
-                        return;
+                    MessageBox.Show("Couldn't automatically detect your League of Legends installation path, please select it manually.", "Error", MessageBoxButtons.OK);
+                    OpenFileDialog dialog = new OpenFileDialog();
+                    dialog.Title = "League of Legends Installation Path";
+                    dialog.Filter = "Leagu of Legends Launcher|lol.launcher.exe";
+                    dialog.FilterIndex = 0;
+                    dialog.Multiselect = false;
+                    dialog.AutoUpgradeEnabled = true;
+                    DialogResult result = dialog.ShowDialog();
+
+                    if (result == DialogResult.OK)
+                    {
+                        // We only want the directory name. Also add the backslash to keep it consistent with what we get from the registry automatically.
+                        leaguePath = Path.GetDirectoryName(dialog.FileName) + "\\";
+                    }
+                    else
+                    {
+                        // Ask the user if he'd like to exit since he didn't select a file.
+                        result = MessageBox.Show("No file was selected, would you like to exit?", "Error", MessageBoxButtons.YesNo);
+                        if (result == DialogResult.Yes)
+                            return;
+                    }
                 }
             }
 
