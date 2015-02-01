@@ -16,45 +16,50 @@ namespace LeagueScrambler
         {
             Console.Title = "League Scrambler";
 
-            string leaguePath = null;
+            string leaguePath = "";
 
             if (File.Exists("leaguepath.txt"))
             {
                 var bytes = File.ReadAllBytes("leaguepath.txt");
                 leaguePath = ASCIIEncoding.ASCII.GetString(bytes, 0, bytes.Length);
             }
-
-            if (string.IsNullOrEmpty(leaguePath))
+            else
             {
-                // Search for League of Legends installation path from registry
                 leaguePath = LeagueLocations.GetLeaguePath();
+            }
 
-                // Make sure the path is valid, if not, ask for user to select it manually. Keep repeating until user exits or selects a proper file.
-                while (string.IsNullOrEmpty(leaguePath) || !Directory.Exists(leaguePath))
+            var flag = false;
+
+            // Make sure the path is valid, if not, ask for user to select it manually. Keep repeating until user exits or selects a proper file.
+            while (string.IsNullOrEmpty(leaguePath) || !Directory.Exists(leaguePath) || !File.Exists(leaguePath + "lol.launcher.exe"))
+            {
+                MessageBox.Show("Couldn't automatically detect your League of Legends installation path, please select it manually.", "Error", MessageBoxButtons.OK);
+                OpenFileDialog dialog = new OpenFileDialog();
+                dialog.Title = "League of Legends Installation Path";
+                dialog.Filter = "Leagu of Legends Launcher|lol.launcher.exe";
+                dialog.FilterIndex = 0;
+                dialog.Multiselect = false;
+                dialog.AutoUpgradeEnabled = true;
+                DialogResult result = dialog.ShowDialog();
+
+                if (result == DialogResult.OK)
                 {
-                    MessageBox.Show("Couldn't automatically detect your League of Legends installation path, please select it manually.", "Error", MessageBoxButtons.OK);
-                    OpenFileDialog dialog = new OpenFileDialog();
-                    dialog.Title = "League of Legends Installation Path";
-                    dialog.Filter = "Leagu of Legends Launcher|lol.launcher.exe";
-                    dialog.FilterIndex = 0;
-                    dialog.Multiselect = false;
-                    dialog.AutoUpgradeEnabled = true;
-                    DialogResult result = dialog.ShowDialog();
-
-                    if (result == DialogResult.OK)
-                    {
-                        // We only want the directory name. Also add the backslash to keep it consistent with what we get from the registry automatically.
-                        leaguePath = Path.GetDirectoryName(dialog.FileName) + "\\";
-                    }
-                    else
-                    {
-                        // Ask the user if he'd like to exit since he didn't select a file.
-                        result = MessageBox.Show("No file was selected, would you like to exit?", "Error", MessageBoxButtons.YesNo);
-                        if (result == DialogResult.Yes)
-                            return;
-                    }
+                    // We only want the directory name. Also add the backslash to keep it consistent with what we get from the registry automatically.
+                    leaguePath = Path.GetDirectoryName(dialog.FileName) + "\\";
+                    flag = true;
+                }
+                else
+                {
+                    // Ask the user if he'd like to exit since he didn't select a file.
+                    result = MessageBox.Show("No file was selected, would you like to exit?", "Error", MessageBoxButtons.YesNo);
+                    if (result == DialogResult.Yes)
+                        return;
                 }
             }
+
+            // Save the location if it was manually selected
+            if (flag)
+                File.WriteAllBytes("leaguepath.txt", ASCIIEncoding.ASCII.GetBytes(leaguePath));
 
             if (!Directory.Exists(LeagueLocations.GetModPath(leaguePath)))
                 Directory.CreateDirectory(LeagueLocations.GetModPath(leaguePath));
