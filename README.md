@@ -67,7 +67,12 @@ Another thing that might be using your files is the `LoLPatcher.exe`, especially
 
 If you still face the error after closing those two processes, quit your League of Legends completely and kill any related processes.
 
-If nothing above helps you to get the scrambler working, feel free to start an issue here at github. Make sure to post your error from the log, though! (Logfile location is `League of Legends\Mythic\Log.txt`)
+Ways to contact me if nothing above helps:
+
+* `mythicpotato` on Skype
+* mythicmaniac@gmail.com
+* Here at github by posting a new issue
+* MythicManiac on EUW League of Legends
 
 ## General information
 
