@@ -8,59 +8,56 @@ using System.IO;
 
 namespace League.Files
 {
-    public class Inibin
+    public class InibinReader
     {
-        public string FilePath { get; internal set; }
 
-        public byte Version { get; internal set; }
-        public Dictionary<uint, object> Content { get; internal set; }
+        private Inibin _inibin;
+        private BinaryReader _reader;
 
         private byte[] _data;
         private uint _contentLength;
         private BitArray _format;
-        private BinaryReader _reader;
 
-        public Inibin() { }
-
-        public Inibin(byte[] data, string filepath)
+        public InibinReader()
         {
-            _data = data;
-            FilePath = filepath;
+
         }
 
-        public bool Read()
+        public Inibin DeserializeInibin(byte[] data)
         {
-            Content = new Dictionary<uint, object>();
+            _data = data;
+            _inibin = new Inibin();
+            _inibin.Content = new Dictionary<uint, object>();
             _reader = new BinaryReader(new MemoryStream(_data));
             _reader.BaseStream.Seek(0, SeekOrigin.Begin);
 
-            Version = _reader.ReadByte();
+            _inibin.Version = _reader.ReadByte();
             _contentLength = _reader.ReadUInt16();
 
-            if (Version != 2)
+            if (_inibin.Version != 2)
                 throw new InvalidDataException("Wrong Inibin version");
 
             _format = new BitArray(new byte[] { _reader.ReadByte(), _reader.ReadByte() });
 
             for (int i = 0; i < _format.Length; i++)
             {
-                if(_format[i])
+                if (_format[i])
                 {
-                    if (!ReadSegment(i))
-                        return false;
+                    if (!DeserializeSegment(i))
+                        return null;
                 }
             }
 
-            return true;
+            return _inibin;
         }
 
-        private bool ReadSegment(int type, bool skipErrors = true)
+        private bool DeserializeSegment(int type, bool skipErrors = true)
         {
             int count = _reader.ReadUInt16();
             uint[] keys = GetKeys(count);
             dynamic[] values = new dynamic[count];
 
-            if(type == 0) // Unsigned integers
+            if (type == 0) // Unsigned integers
             {
                 for (int i = 0; i < count; i++)
                 {
@@ -178,16 +175,16 @@ namespace League.Files
             }
             else
             {
-                if(!skipErrors)
+                if (!skipErrors)
                     throw new Exception("Unknown segment type");
 
-                Console.WriteLine(string.Format("Unknown segment type found in file {0}", FilePath));
+                Console.WriteLine(string.Format("Unknown segment type found in file {0}", _inibin.FilePath));
                 return false;
             }
 
-            for(int i = 0; i < keys.Length; i++)
+            for (int i = 0; i < keys.Length; i++)
             {
-                Content.Add(keys[i], values[i]);
+                _inibin.Content.Add(keys[i], values[i]);
             }
 
             return true;
@@ -197,7 +194,7 @@ namespace League.Files
         {
             uint[] result = new uint[count];
 
-            for(int i = 0; i < result.Length; i++)
+            for (int i = 0; i < result.Length; i++)
             {
                 result[i] = _reader.ReadUInt32();
             }
@@ -212,7 +209,7 @@ namespace League.Files
 
             string result = "";
             int character = _reader.ReadByte();
-            while(character > 0)
+            while (character > 0)
             {
                 result += (char)character;
                 character = _reader.ReadByte();
