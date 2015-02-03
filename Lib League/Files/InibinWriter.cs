@@ -8,50 +8,48 @@ using System.IO;
 
 namespace League.Files
 {
-    public class InibinReader
+    public class InibinWriter
     {
 
         private Inibin _inibin;
-        private BinaryReader _reader;
+        private BinaryWriter _writer;
+        private MemoryStream _stream;
 
-        private byte[] _data;
-        private uint _stringTableLength;
-        private BitArray _format;
+        //private uint _stringTableLength;
+        //private BitArray _format;
 
-        public InibinReader() { }
+        public InibinWriter() { }
 
-        public Inibin DeserializeInibin(byte[] data, string filepath)
+        public byte[] SerializeInibin(Inibin inibin)
         {
-            _data = data;
-            _inibin = new Inibin();
-            _inibin.FilePath = filepath;
-            _inibin.Content = new Dictionary<uint, InibinValue>();
-            _reader = new BinaryReader(new MemoryStream(_data));
-            _reader.BaseStream.Seek(0, SeekOrigin.Begin);
+            _inibin = inibin;
+            _stream = new MemoryStream();
+            _writer = new BinaryWriter(_stream);
 
-            _inibin.Version = _reader.ReadByte();
-            _stringTableLength = _reader.ReadUInt16();
+            //_inibin.Version = _reader.ReadByte();
+            //_stringTableLength = _reader.ReadUInt16();
 
             if (_inibin.Version != 2)
                 throw new InvalidDataException("Wrong Inibin version");
 
-            _format = new BitArray(new byte[] { _reader.ReadByte(), _reader.ReadByte() });
+            //_format = new BitArray(new byte[] { _reader.ReadByte(), _reader.ReadByte() });
 
-            for (int i = 0; i < _format.Length; i++)
-            {
-                if (_format[i])
-                {
-                    if (!DeserializeSegment(i))
-                        return null;
-                }
-            }
+            //for (int i = 0; i < _format.Length; i++)
+            //{
+            //    if (_format[i])
+            //    {
+            //        if (!SerializeSegment(i))
+            //            return null;
+            //    }
+            //}
 
-            return _inibin;
+            return _stream.ToArray();
         }
 
-        private bool DeserializeSegment(int type, bool skipErrors = true)
+        private bool SerializeSegment(int type, bool skipErrors = true)
         {
-            int count = _reader.ReadUInt16();
+            //int count = _reader.ReadUInt16();
+            var count = 0;
             uint[] keys = DeserializeKeys(count);
             InibinValue[] values = new InibinValue[count];
 
@@ -59,41 +57,41 @@ namespace League.Files
             {
                 for (int i = 0; i < count; i++)
                 {
-                    values[i] = new InibinValue(type, _reader.ReadUInt32());
+                    //values[i] = new InibinValue(type, _reader.ReadUInt32());
                 }
             }
             else if (type == 1) // Floats
             {
                 for (int i = 0; i < count; i++)
                 {
-                    values[i] = new InibinValue(type, _reader.ReadSingle());
+                    //values[i] = new InibinValue(type, _reader.ReadSingle());
                 }
             }
             else if (type == 2) // One byte floats - Divide the byte by 10
             {
                 for (int i = 0; i < count; i++)
                 {
-                    values[i] = new InibinValue(type, (float)(_reader.ReadByte() * 0.1f));
+                    //values[i] = new InibinValue(type, (float)(_reader.ReadByte() * 0.1f));
                 }
             }
             else if (type == 3) // Unsigned shorts
             {
                 for (int i = 0; i < count; i++)
                 {
-                    values[i] = new InibinValue(type, _reader.ReadUInt16());
+                    //values[i] = new InibinValue(type, _reader.ReadUInt16());
                 }
             }
             else if (type == 4) // Bytes
             {
                 for (int i = 0; i < count; i++)
                 {
-                    values[i] = new InibinValue(type, _reader.ReadByte());
+                    //values[i] = new InibinValue(type, _reader.ReadByte());
                 }
             }
             else if (type == 5) // Booleans
             {
                 byte[] bytes = new byte[(int)Math.Ceiling((decimal)count / 8)];
-                _reader.BaseStream.Read(bytes, 0, bytes.Length);
+                //_reader.BaseStream.Read(bytes, 0, bytes.Length);
                 BitArray bits = new BitArray(bytes);
 
                 for (int i = 0; i < count; i++)
@@ -107,7 +105,7 @@ namespace League.Files
 
                 for (int i = 0; i < count; i++)
                 {
-                    _reader.BaseStream.Read(bytes, 0, bytes.Length);
+                    //_reader.BaseStream.Read(bytes, 0, bytes.Length);
                     values[i] = new InibinValue(type, BitConverter.ToUInt32(new byte[4] { 0, bytes[0], bytes[1], bytes[2] }, 0));
                 }
             }
@@ -120,9 +118,9 @@ namespace League.Files
                 for (int i = 0; i < count; i++)
                 {
                     // 4 + 4 + 4 = 12
-                    _reader.ReadInt32();
-                    _reader.ReadInt32();
-                    _reader.ReadInt32();
+                    //_reader.ReadInt32();
+                    //_reader.ReadInt32();
+                    //_reader.ReadInt32();
                     values[i] = new InibinValue(type, "NotYetImplemented");
                 }
             }
@@ -130,21 +128,21 @@ namespace League.Files
             {
                 for (int i = 0; i < count; i++)
                 {
-                    values[i] = new InibinValue(type, _reader.ReadUInt16());
+                    //values[i] = new InibinValue(type, _reader.ReadUInt16());
                 }
             }
             else if (type == 9) // 2x float ??????
             {
                 for (int i = 0; i < count; i++)
                 {
-                    values[i] = new InibinValue(type, _reader.ReadUInt64());
+                    //values[i] = new InibinValue(type, _reader.ReadUInt64());
                 }
             }
             else if (type == 10) // 4x bytes * 0.1f ?????
             {
                 for (int i = 0; i < count; i++)
                 {
-                    values[i] = new InibinValue(type, _reader.ReadUInt32());
+                    //values[i] = new InibinValue(type, _reader.ReadUInt32());
                 }
             }
             else if (type == 11) // 4x float ?????
@@ -153,23 +151,23 @@ namespace League.Files
                     throw new Exception("Reading 16 byte values not yet supported");
 
                 //Console.WriteLine("Tried to read 16 byte values");
-                for (int i = 0; i < count; i++)
-                {
-                    // 8 + 8 = 16
-                    _reader.ReadUInt64();
-                    _reader.ReadUInt64();
-                    values[i] = new InibinValue(type, "NotYetImplemented");
-                }
+                //for (int i = 0; i < count; i++)
+                //{
+                //    // 8 + 8 = 16
+                //    _reader.ReadUInt64();
+                //    _reader.ReadUInt64();
+                //    values[i] = new InibinValue(type, "NotYetImplemented");
+                //}
             }
             else if (type == 12) // Unsigned short - string dictionary offsets
             {
-                long stringListOffset = _reader.BaseStream.Length - _stringTableLength;
+                //long stringListOffset = _reader.BaseStream.Length - _stringTableLength;
 
-                for (int i = 0; i < count; i++)
-                {
-                    int offset = _reader.ReadInt16();
-                    values[i] = new InibinValue(type, DeserializeString(stringListOffset + offset));
-                }
+                //for (int i = 0; i < count; i++)
+                //{
+                //    int offset = _reader.ReadInt16();
+                //    values[i] = new InibinValue(type, DeserializeString(stringListOffset + offset));
+                //}
             }
             else
             {
@@ -190,32 +188,35 @@ namespace League.Files
 
         private uint[] DeserializeKeys(int count)
         {
-            uint[] result = new uint[count];
+            //uint[] result = new uint[count];
 
-            for (int i = 0; i < result.Length; i++)
-            {
-                result[i] = _reader.ReadUInt32();
-            }
+            //for (int i = 0; i < result.Length; i++)
+            //{
+            //    result[i] = _reader.ReadUInt32();
+            //}
 
-            return result;
+            //return result;
+            return null;
         }
 
         private string DeserializeString(long offset)
         {
-            long oldPosition = _reader.BaseStream.Position;
-            _reader.BaseStream.Seek(offset, SeekOrigin.Begin);
+            //long oldPosition = _reader.BaseStream.Position;
+            //_reader.BaseStream.Seek(offset, SeekOrigin.Begin);
 
-            string result = "";
-            int character = _reader.ReadByte();
-            while (character > 0)
-            {
-                result += (char)character;
-                character = _reader.ReadByte();
-            }
+            //string result = "";
+            //int character = _reader.ReadByte();
+            //while (character > 0)
+            //{
+            //    result += (char)character;
+            //    character = _reader.ReadByte();
+            //}
 
-            _reader.BaseStream.Seek(oldPosition, SeekOrigin.Begin);
+            //_reader.BaseStream.Seek(oldPosition, SeekOrigin.Begin);
 
-            return result;
+            //return result;
+
+            return "";
         }
     }
 }

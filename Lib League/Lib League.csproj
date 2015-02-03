@@ -54,6 +54,7 @@
     <Compile Include="Files\ArchiveWriter.cs" />
     <Compile Include="Files\Inibin.cs" />
     <Compile Include="Files\InibinReader.cs" />
+    <Compile Include="Files\InibinWriter.cs" />
     <Compile Include="Files\Manifest\Classes.cs" />
     <Compile Include="Files\Manifest\ReleaseManifest.cs" />
     <Compile Include="Files\Manifest\ReleaseManifestReader.cs" />

@@ -114,7 +114,7 @@ namespace League.Tools
                     continue;
                 }
 
-                var inibin = new Character(new Inibin(_manager.ReadFile(character.FullName).Uncompress(), character.FullName));
+                var inibin = new Character(Inibin.DeserializeInibin(_manager.ReadFile(character.FullName).Uncompress(), character.FullName));
 
                 var flag = all;
                 for (int j = 0; j < types.Length; j++)
@@ -144,7 +144,7 @@ namespace League.Tools
                                 continue;
                             }
 
-                            skins.Add(new Character(new Inibin(_manager.ReadFile(skin.FullName).Uncompress(), skin.FullName)));
+                            skins.Add(new Character(Inibin.DeserializeInibin(_manager.ReadFile(skin.FullName).Uncompress(), skin.FullName)));
                         }
                     }
                 }

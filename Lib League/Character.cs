@@ -14,14 +14,13 @@ namespace League
     public class Character
     {
         public Inibin Inibin { get; private set; }
-
-        public Character(byte[] data, string path) : this(new Inibin(data, path)) { }
         public Skin[] Skins { get; set; }
+
+        public Character(byte[] data, string path) : this(Inibin.DeserializeInibin(data, path)) { }
 
         public Character(Inibin inibin)
         {
             Inibin = inibin;
-            Inibin.Read();
         }
 
         public void LoadSkins(ManifestSearch search)
@@ -41,7 +40,7 @@ namespace League
             get
             {
                 if (Inibin.Content.ContainsKey(CharacterHashes.Type))
-                    return (string)Inibin.Content[CharacterHashes.Type];
+                    return (string)Inibin.Content[CharacterHashes.Type].Value;
 
                 return "Unknown";
             }
@@ -52,7 +51,7 @@ namespace League
             get
             {
                 if (Inibin.Content.ContainsKey(CharacterHashes.NameKey))
-                    return (string)Inibin.Content[CharacterHashes.NameKey];
+                    return (string)Inibin.Content[CharacterHashes.NameKey].Value;
                 
                 return "Unknown";
             }
@@ -63,7 +62,7 @@ namespace League
             get
             {
                 if (Inibin.Content.ContainsKey(CharacterHashes.SquareIconDds))
-                    return (string)Inibin.Content[CharacterHashes.SquareIconDds];
+                    return (string)Inibin.Content[CharacterHashes.SquareIconDds].Value;
 
                 return null;
             }
@@ -74,7 +73,7 @@ namespace League
             get
             {
                 if (Inibin.Content.ContainsKey(CharacterHashes.CircleIconDds))
-                    return (string)Inibin.Content[CharacterHashes.CircleIconDds];
+                    return (string)Inibin.Content[CharacterHashes.CircleIconDds].Value;
 
                 return null;
             }
@@ -109,10 +108,10 @@ namespace League
 
                 var start = Inibin.FilePath.Substring(0, Inibin.FilePath.LastIndexOf('/'));
 
-                result.SknFile = search.FindClosestPath((string)Inibin.Content[hash.Skn], start, "Characters");
-                result.SklFile = search.FindClosestPath((string)Inibin.Content[hash.Skl], start, "Characters");
-                result.DdsFile = search.FindClosestPath((string)Inibin.Content[hash.Dds], start, "Characters");
-                result.BlndFile = search.FindClosestPath((string)Inibin.Content[hash.Blnd], start, "Characters");
+                result.SknFile = search.FindClosestPath((string)Inibin.Content[hash.Skn].Value, start, "Characters");
+                result.SklFile = search.FindClosestPath((string)Inibin.Content[hash.Skl].Value, start, "Characters");
+                result.DdsFile = search.FindClosestPath((string)Inibin.Content[hash.Dds].Value, start, "Characters");
+                result.BlndFile = search.FindClosestPath((string)Inibin.Content[hash.Blnd].Value, start, "Characters");
 
                 if (result.BlndFile == null || result.SknFile == null || result.DdsFile == null || result.SklFile == null)
                     return null;
