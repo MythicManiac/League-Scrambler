@@ -74,6 +74,8 @@ Ways to contact me if nothing above helps:
 * Here at github by posting a new issue
 * MythicManiac on EUW League of Legends
 
+In case you add me on Skype, please mention your subject (having problems with the scrambler/whatever) on the contact request message.
+
 ## General information
 
 * All of the files used by this program will be placed inside a folder named `Mythic`, which is inside your League of Legends installation folder (So generally `League of Legends\Mythic`. Touching any of these files (besides the `Log.txt` file) might break the program.
