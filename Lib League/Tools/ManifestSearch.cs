@@ -93,7 +93,7 @@ namespace League.Tools
             var files = _manifest.Root.GetChildDirectoryOrNull("DATA").GetChildDirectoryOrNull("Items").GetChildDirectoryOrNull("Icons2D").GetAllSubfiles().ToArray();
             for (int i = 0; i < files.Length; i++)
             {
-                if (files[i].Name.Split('.').Last() == "dds")
+                if (files[i].Name.ToLower().Split('.').Last() == "dds")
                     result.Add(files[i].FullName);
             }
             return result.ToArray();

@@ -145,12 +145,12 @@ namespace League.Tools
             _writing = true;
         }
 
-        public void WriteFile(string filepath, bool compress, ArchiveFile file)
+        public void WriteFile(string filepath, bool compressNOTWORKING, ArchiveFile file)
         {
-            WriteFile(filepath, compress, file, false);
+            WriteFile(filepath, compressNOTWORKING, file, false);
         }
 
-        public void WriteFile(string filepath, bool compress, ArchiveFile file, bool surpressErrors)
+        public void WriteFile(string filepath, bool compressNOTWORKING, ArchiveFile file, bool surpressErrors)
         {
             if (!_writing)
                 throw new Exception("Must call BeginWriting() before calling WriteFile()");
