@@ -32,27 +32,29 @@ namespace TestProject
 
             manager.Revert();
 
-            //var filename1 = "DATA/Characters/Rumble/Skins/Skin01/RumbleLoadScreen_1.dds";
-            //var filename2 = "DATA/Characters/Nunu/Skins/Base/NunuLoadScreen.dds";
+            //var filename1 = "DATA/Items/Icons2D/1053_Vampiric_Scepter.dds";
+            var filename1 = "DATA/Items/Icons2D/3078_Trinity_Force.dds";
+            var filename2 = "DATA/Items/Icons2D/3077_Tiamat.dds";
+            //var filename2 = "DATA/Items/Icons2D/3078_Trinity_Force.dds";
 
-            //var file1 = manager.ReadFile(filename1);
-            //var file2 = manager.ReadFile(filename2);
+            var file1 = manager.ReadFile(filename1);
+            var file2 = manager.ReadFile(filename2);
 
-            //File.WriteAllBytes(@"C:\File 1 Test 1.dds", file1.Uncompress());
-            //File.WriteAllBytes(@"C:\File 2 Test 1.dds", file2.Uncompress());
+            File.WriteAllBytes(@"C:\File 1 Test 1.dds", file1.Uncompress());
+            File.WriteAllBytes(@"C:\File 2 Test 1.dds", file2.Uncompress());
 
-            //manager.BeginWriting();
+            manager.BeginWriting();
 
-            //manager.WriteFile(filename1, false, file2);
-            //manager.WriteFile(filename2, false, file1);
+            manager.WriteFile(filename1, false, file2);
+            manager.WriteFile(filename2, false, file1);
 
-            //manager.EndWriting();
+            manager.EndWriting();
 
-            //file1 = manager.ReadFile(filename1);
-            //file2 = manager.ReadFile(filename2);
+            file1 = manager.ReadFile(filename1);
+            file2 = manager.ReadFile(filename2);
 
-            //File.WriteAllBytes(@"C:\File 1 Test 2.dds", file1.Uncompress());
-            //File.WriteAllBytes(@"C:\File 2 Test 2.dds", file2.Uncompress());
+            File.WriteAllBytes(@"C:\File 1 Test 2.dds", file1.Uncompress());
+            File.WriteAllBytes(@"C:\File 2 Test 2.dds", file2.Uncompress());
 
             //CompileAssetLists(search);
         }

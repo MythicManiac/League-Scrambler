@@ -18,7 +18,7 @@ namespace League.Tools
         private Dictionary<string, ArchiveWriteBuffer> _bufferTable;
         private Dictionary<string, ArchiveState> _archiveStates;
         private Dictionary<string, Archive> _archiveTable;
-        private Dictionary<string, Archive> _fileTable;
+        private Dictionary<string, List<Archive>> _fileTable;
 
         private ArchiveReader _reader;
         private ArchiveWriter _writer;
@@ -78,7 +78,7 @@ namespace League.Tools
         {
             Console.WriteLine("Indexing files...");
             _archiveTable = new Dictionary<string, Archive>();
-            _fileTable = new Dictionary<string, Archive>();
+            _fileTable = new Dictionary<string, List<Archive>>();
             var files = Directory.EnumerateFiles(LeagueLocations.GetArchivePath(_leaguePath), "*.raf", SearchOption.AllDirectories).ToArray();
             for(int i = 0; i < files.Length; i++)
             {
@@ -88,11 +88,12 @@ namespace League.Tools
                 {
                     if (!_fileTable.ContainsKey(kvp.Key))
                     {
-                        _fileTable[kvp.Key] = archive;
+                        _fileTable[kvp.Key] = new List<Archive>();
+                        _fileTable[kvp.Key].Add(archive);
                     }
                     else if (_indexTable.ContainsKey(kvp.Key) && _indexTable[kvp.Key].ArchiveId == archive.GetManagerIndex())
                     {
-                        _fileTable[kvp.Key] = archive;
+                        _fileTable[kvp.Key].Add(archive);
                     }
                 }
             }
@@ -122,7 +123,7 @@ namespace League.Tools
                 return null;
             }
 
-            var archive = _fileTable[filepath];
+            var archive = _fileTable[filepath][0];
             var info = archive.Files[filepath];
 
             var result = new ArchiveFile();
@@ -175,25 +176,30 @@ namespace League.Tools
 
             var archive = _fileTable[filepath];
 
-            // Handle archive state creation
-            if(!_archiveStates.ContainsKey(archive.FilePath))
+            for (int i = 0; i < archive.Count; i++)
             {
-                var state = new ArchiveState();
-                state.ArchivePath = archive.FilePath;
-                state.OriginalLength = archive.DataLength;
-                state.OriginalValues = new Dictionary<string, ArchiveFileInfo>();
-                _archiveStates[archive.FilePath] = state;
-            }
 
-            if (!_bufferTable.ContainsKey(archive.FilePath))
-                _bufferTable[archive.FilePath] = new ArchiveWriteBuffer();
+                // Handle archive state creation
+                if (!_archiveStates.ContainsKey(archive[i].FilePath))
+                {
+                    var state = new ArchiveState();
+                    state.ArchivePath = archive[i].FilePath;
+                    state.OriginalLength = archive[i].DataLength;
+                    state.OriginalValues = new Dictionary<string, ArchiveFileInfo>();
+                    _archiveStates[archive[i].FilePath] = state;
+                }
 
-            _bufferTable[archive.FilePath].WriteData(filepath, file.Data);
+                if (!_bufferTable.ContainsKey(archive[i].FilePath))
+                    _bufferTable[archive[i].FilePath] = new ArchiveWriteBuffer();
 
-            // Copy file info to the list of originals and then modify it
-            if (!_archiveStates[archive.FilePath].OriginalValues.ContainsKey(filepath))
-            {
-                _archiveStates[archive.FilePath].OriginalValues[filepath] = ArchiveFileInfo.Copy(_fileTable[filepath].Files[filepath]);
+                _bufferTable[archive[i].FilePath].WriteData(filepath, file.Data);
+
+                // Copy file info to the list of originals and then modify it
+                if (!_archiveStates[archive[i].FilePath].OriginalValues.ContainsKey(filepath))
+                {
+                    _archiveStates[archive[i].FilePath].OriginalValues[filepath] = ArchiveFileInfo.Copy(archive[i].Files[filepath]);
+                }
+
             }
 
             // Handle manifest changes
