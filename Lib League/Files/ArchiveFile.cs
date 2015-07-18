@@ -40,6 +40,8 @@ namespace League.Files
                 if (compress)
                     data = temp;
             }
+
+            Data = data;
         }
 
         public byte[] Uncompress()
