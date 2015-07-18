@@ -172,14 +172,18 @@ namespace LeagueScrambler
                 }
             }
 
+            var table = new Table(2);
+
             int position = 1;
             foreach (var kvp in _patchList)
             {
+                table.AddRow(kvp.Key, kvp.Value);
                 Console.Title = string.Format("Patching files... {0} / {1}", position, _patchList.Count);
                 if(_files.ContainsKey(kvp.Value))
                     manager.WriteFile(kvp.Key, true, _files[kvp.Value], true);
                 position++;
             }
+            table.Dump();
 
             manager.EndWriting();
         }
