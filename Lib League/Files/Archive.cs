@@ -49,6 +49,20 @@ namespace League.Files
             var reader = new ArchiveReader();
             return reader.ReadArchive(filepath);
         }
+
+        public static Archive CreateArchive(string folder, int type)
+        {
+            var archive = new Archive();
+
+            folder = folder.Replace('\\', '/');
+            if (folder.Last() != '/') { folder = folder + '/'; }
+
+            archive.FilePath = folder + "Archive_" + type + ".raf";
+            archive.Files = new Dictionary<string, ArchiveFileInfo>();
+            archive.SaveChanges();
+
+            return archive;
+        }
     }
 
     public class ArchiveFileInfo

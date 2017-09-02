@@ -30,31 +30,36 @@ namespace TestProject
             var manager = new ArchiveFileManager(LeagueLocations.GetLeaguePath());
             var search = new ManifestSearch(manager);
 
-            manager.Revert();
+            Console.WriteLine(manager.Manifest.Header.EntityVersion);
+            Console.WriteLine(manager.Manifest.Header.FormatVersion);
+            Console.WriteLine(manager.Manifest.Header.Magic);
+            Console.WriteLine(manager.Manifest.Header.UnknownCount);
 
-            //var filename1 = "DATA/Items/Icons2D/1053_Vampiric_Scepter.dds";
-            var filename1 = "DATA/Items/Icons2D/3078_Trinity_Force.dds";
-            var filename2 = "DATA/Items/Icons2D/3077_Tiamat.dds";
-            //var filename2 = "DATA/Items/Icons2D/3078_Trinity_Force.dds";
+            //manager.Revert();
 
-            var file1 = manager.ReadFile(filename1);
-            var file2 = manager.ReadFile(filename2);
+            ////var filename1 = "DATA/Items/Icons2D/1053_Vampiric_Scepter.dds";
+            //var filename1 = "DATA/Items/Icons2D/3078_Trinity_Force.dds";
+            //var filename2 = "DATA/Items/Icons2D/3077_Tiamat.dds";
+            ////var filename2 = "DATA/Items/Icons2D/3078_Trinity_Force.dds";
 
-            File.WriteAllBytes(@"C:\File 1 Test 1.dds", file1.Uncompress());
-            File.WriteAllBytes(@"C:\File 2 Test 1.dds", file2.Uncompress());
+            //var file1 = manager.ReadFile(filename1);
+            //var file2 = manager.ReadFile(filename2);
 
-            manager.BeginWriting();
+            //File.WriteAllBytes(@"C:\File 1 Test 1.dds", file1.Uncompress());
+            //File.WriteAllBytes(@"C:\File 2 Test 1.dds", file2.Uncompress());
 
-            manager.WriteFile(filename1, false, file2);
-            manager.WriteFile(filename2, false, file1);
+            //manager.BeginWriting();
 
-            manager.EndWriting();
+            //manager.WriteFile(filename1, false, file2);
+            //manager.WriteFile(filename2, false, file1);
 
-            file1 = manager.ReadFile(filename1);
-            file2 = manager.ReadFile(filename2);
+            //manager.EndWriting();
 
-            File.WriteAllBytes(@"C:\File 1 Test 2.dds", file1.Uncompress());
-            File.WriteAllBytes(@"C:\File 2 Test 2.dds", file2.Uncompress());
+            //file1 = manager.ReadFile(filename1);
+            //file2 = manager.ReadFile(filename2);
+
+            //File.WriteAllBytes(@"C:\File 1 Test 2.dds", file1.Uncompress());
+            //File.WriteAllBytes(@"C:\File 2 Test 2.dds", file2.Uncompress());
 
             //CompileAssetLists(search);
         }

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "League Scrambler", "League 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject", "TestProject\TestProject.csproj", "{32EF6811-5A0E-49CF-9B18-15D7C13447C9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "League Downloader", "League Downloader\League Downloader.csproj", "{18052810-CC62-4CF8-B511-522DD512DA7D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_Nightly|Any CPU = Debug_Nightly|Any CPU
@@ -67,6 +69,21 @@ Global
 		{32EF6811-5A0E-49CF-9B18-15D7C13447C9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{32EF6811-5A0E-49CF-9B18-15D7C13447C9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{32EF6811-5A0E-49CF-9B18-15D7C13447C9}.Release|x86.ActiveCfg = Release|Any CPU
+		{18052810-CC62-4CF8-B511-522DD512DA7D}.Debug_Nightly|Any CPU.ActiveCfg = Debug|Any CPU
+		{18052810-CC62-4CF8-B511-522DD512DA7D}.Debug_Nightly|Any CPU.Build.0 = Debug|Any CPU
+		{18052810-CC62-4CF8-B511-522DD512DA7D}.Debug_Nightly|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{18052810-CC62-4CF8-B511-522DD512DA7D}.Debug_Nightly|Mixed Platforms.Build.0 = Debug|Any CPU
+		{18052810-CC62-4CF8-B511-522DD512DA7D}.Debug_Nightly|x86.ActiveCfg = Debug|Any CPU
+		{18052810-CC62-4CF8-B511-522DD512DA7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18052810-CC62-4CF8-B511-522DD512DA7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18052810-CC62-4CF8-B511-522DD512DA7D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{18052810-CC62-4CF8-B511-522DD512DA7D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{18052810-CC62-4CF8-B511-522DD512DA7D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{18052810-CC62-4CF8-B511-522DD512DA7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18052810-CC62-4CF8-B511-522DD512DA7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18052810-CC62-4CF8-B511-522DD512DA7D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{18052810-CC62-4CF8-B511-522DD512DA7D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{18052810-CC62-4CF8-B511-522DD512DA7D}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -41,5 +41,27 @@ namespace League.Files.Manifest
             var reader = new ReleaseManifestReader(path);
             return reader.Read();
         }
+
+        public static ReleaseManifest Generate(string path, Dictionary<string, Archive> files, uint version)
+        {
+            var manifest = new ReleaseManifest();
+            manifest.FileLocation = path;
+            manifest.Header = new ReleaseManifestHeader();
+            manifest.Header.EntityVersion = version;
+            manifest.Header.FormatVersion = 65537;
+            manifest.Header.Magic = 1297304658;
+            manifest.Header.UnknownCount = 77266;
+            //manifest.Directories = new ReleaseManifestDirectoryEntry[0];
+            //manifest.Files = new ReleaseManifestFileEntry[0];
+            //manifest.Strings = new StringTable();
+            manifest.SaveChanges();
+
+            var dirs = new List<ReleaseManifestDirectoryEntry>();
+
+            var descriptor = new ReleaseManifestDirectoryDescriptor();
+            new ReleaseManifestDirectoryEntry(0, manifest, descriptor, null);
+
+            return manifest;
+        }
     }
 }

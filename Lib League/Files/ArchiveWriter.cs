@@ -26,6 +26,7 @@ namespace League.Files
 
         public void WriteArchive(Archive archive, string filepath)
         {
+            if (!Directory.Exists(Path.GetDirectoryName(filepath))) { Directory.CreateDirectory(Path.GetDirectoryName(filepath)); }
             File.WriteAllBytes(filepath, WriteArchive(archive));
         }
 
